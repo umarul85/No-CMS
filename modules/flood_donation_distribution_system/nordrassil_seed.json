@@ -1,0 +1,310 @@
+{
+    "name": "FLOOD DONATION DISTRIBUTION SYSTEM",
+    "db_server": "localhost",
+    "db_port": "3306",
+    "db_schema": "no_cms",
+    "db_user": "admin",
+    "db_password": "1234",
+    "db_table_prefix": null,
+    "template": "No-CMS Module",
+    "tables": [
+        {
+            "name": "center",
+            "caption": "Center",
+            "data": null,
+            "options": {
+                "make_frontpage": true
+            },
+            "columns": [
+                {
+                    "caption": "Center Id",
+                    "name": "center_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "primary"
+                },
+                {
+                    "caption": "Center Name",
+                    "name": "center_name",
+                    "data_type": "varchar",
+                    "data_size": "50",
+                    "role": null
+                },
+                {
+                    "caption": "Residing Address",
+                    "name": "residing_address",
+                    "data_type": "tinytext",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "City",
+                    "name": "city",
+                    "data_type": "varchar",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Postal Code",
+                    "name": "postal_code",
+                    "data_type": "int",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "State\/Region",
+                    "name": "state_region",
+                    "data_type": "varchar",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Center Type",
+                    "name": "center_type",
+                    "data_type": "varchar",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Center Total Capacity",
+                    "name": "center_total_capacity",
+                    "data_type": "int",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Center Current Cappacity",
+                    "name": "center_current_cappacity",
+                    "data_type": "int",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Center Status",
+                    "name": "center_status",
+                    "data_type": "varchar",
+                    "data_size": "20",
+                    "role": null,
+                    "value_selection_mode": "enum",
+                    "value_selection_item": "\"Open\",\"Closed\""
+                },
+                {
+                    "caption": "Center Open Date",
+                    "name": "center_open_date",
+                    "data_type": "timestamp",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Center Closed Date",
+                    "name": "center_closed_date",
+                    "data_type": "timestamp",
+                    "data_size": null,
+                    "role": null
+                }
+            ]
+        },
+        {
+            "name": "inventory",
+            "caption": "Inventory",
+            "data": null,
+            "options": {
+                "make_frontpage": true
+            },
+            "columns": [
+                {
+                    "caption": "Inventory Id",
+                    "name": "inventory_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "primary"
+                },
+                {
+                    "caption": "Center Id",
+                    "name": "center_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "lookup",
+                    "lookup_table_name": "center",
+                    "lookup_column_name": "center_name",
+                    "lookup_table_primary_key": "center_id",
+                    "relation_table_name": "center",
+                    "relation_table_column_name": "center_id"
+                },
+                {
+                    "caption": "Item Name",
+                    "name": "item_name",
+                    "data_type": "varchar",
+                    "data_size": "50",
+                    "role": null
+                },
+                {
+                    "caption": "Item Type",
+                    "name": "item_type",
+                    "data_type": "varchar",
+                    "data_size": "50",
+                    "role": null
+                },
+                {
+                    "caption": "Quantity",
+                    "name": "quantity",
+                    "data_type": "int",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Donator Name ",
+                    "name": "donator_name",
+                    "data_type": "char",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Receiver Name",
+                    "name": "receiver_name",
+                    "data_type": "char",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Received Date",
+                    "name": "received_date",
+                    "data_type": "timestamp",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Send Date",
+                    "name": "send_date",
+                    "data_type": "timestamp",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Remark",
+                    "name": "remark",
+                    "data_type": "mediumtext",
+                    "data_size": null,
+                    "role": null
+                }
+            ]
+        },
+        {
+            "name": "flood_victim_detail",
+            "caption": "Flood Victim Detail",
+            "data": null,
+            "options": {
+                "make_frontpage": true
+            },
+            "columns": [
+                {
+                    "caption": "Victim Ic",
+                    "name": "victim_ic",
+                    "data_type": "int",
+                    "data_size": null,
+                    "role": "primary"
+                },
+                {
+                    "caption": "Center Id",
+                    "name": "center_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "lookup",
+                    "lookup_table_name": "center",
+                    "lookup_column_name": "center_name",
+                    "lookup_table_primary_key": "center_id"
+                },
+                {
+                    "caption": "Victim Name",
+                    "name": "victim_name",
+                    "data_type": "tinytext",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Gender",
+                    "name": "gender",
+                    "data_type": "varchar",
+                    "data_size": "255",
+                    "role": null,
+                    "value_selection_mode": "enum",
+                    "value_selection_item": "\"male\",\"female\""
+                },
+                {
+                    "caption": "Age",
+                    "name": "age",
+                    "data_type": "int",
+                    "data_size": null,
+                    "role": null,
+                    "options": {
+                        "validation_integer": true,
+                        "validation_natural_no_zero": true
+                    }
+                },
+                {
+                    "caption": "Contact Number",
+                    "name": "contact_number",
+                    "data_type": "tinytext",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Home Address",
+                    "name": "home_address",
+                    "data_type": "tinytext",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "City",
+                    "name": "city",
+                    "data_type": "varchar",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Postal Code",
+                    "name": "postal_code",
+                    "data_type": "int",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "State\/Region",
+                    "name": "state_region",
+                    "data_type": "varchar",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Current IPTA\/IPTS",
+                    "name": "current_ipta_ipts",
+                    "data_type": "varchar",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Victim Status",
+                    "name": "victim_status",
+                    "data_type": "varchar",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Victim Enter Date",
+                    "name": "victim_enter_date",
+                    "data_type": "timestamp",
+                    "data_size": null,
+                    "role": null
+                },
+                {
+                    "caption": "Victim Out Date",
+                    "name": "victim_out_date",
+                    "data_type": "timestamp",
+                    "data_size": null,
+                    "role": null
+                }
+            ]
+        }
+    ]
+}
