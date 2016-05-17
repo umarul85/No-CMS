@@ -1,8 +1,4 @@
-<?php
-
-if (!defined('BASEPATH')) {
-    exit('No direct script access allowed');
-}
+<?php if (!defined('BASEPATH')) {exit('No direct script access allowed');}
 
 /**
  * The Main Controller of No-CMS.
@@ -511,7 +507,7 @@ class Main extends CMS_Controller
                         $pp_file_name = $this->cms_user_id().'_'.$pp['name'];
                         $file_name = FCPATH.'assets/nocms/images/profile_picture/'.$pp_file_name;
                         move_uploaded_file($pp['tmp_name'], $file_name);
-                        $this->cms_resize_image($file_name, 256, 256);
+                        $this->cms_resize_image($file_name, 512, 512);
                         // profile picture is pp_file_name
                         $profile_picture = $pp_file_name;
                     }
@@ -882,7 +878,7 @@ class Main extends CMS_Controller
                     continue;
                 }
                 if (($navigation['allowed'] && $navigation['active']) || $navigation['have_allowed_children']) {
-                    $navigation['bootstrap_glyph'] = $navigation['bootstrap_glyph'] == '' ? 'icon-white' : $navigation['bootstrap_glyph'];
+                    $navigation['bootstrap_glyph'] = $navigation['bootstrap_glyph'] == '' ? 'glyphicon-none' : $navigation['bootstrap_glyph'];
                     // make text
                     $icon = '<span class="glyphicon '.$navigation['bootstrap_glyph'].'"></span>&nbsp;';
                     $badge = '';
@@ -908,31 +904,60 @@ class Main extends CMS_Controller
                     }
                 }
             }
+            // factory reset
+            if($first && $this->cms_user_is_super_admin()){
+                $result .= '<li role="separator" class="divider"></li>';
+                $result .= '<li><a href="{{ site_url }}factory_reset"><i class="glyphicon glyphicon-repeat"></i> Factory Reset</a></li>';
+            }
             $result .= '</ul>';
         }
 
         // show up
         if ($first) {
-            if (!$no_complete_menu && $this->cms_user_id() > 0) {
+            if (!$no_complete_menu) {
                 //  hidden-sm hidden-xs
                 $result = '<li class="dropdown">'.
-                    '<a class="dropdown-toggle" data-toggle="dropdown" href="#">'.$caption.' <span class="caret"></span></a>'.
+                    '<a class="dropdown-toggle" data-toggle="dropdown" href="{{ site_url }}">'.
+                        '<span class="anchor-text">'.
+                            '<img id="navbar-logo" class="navbar-logo" src ="{{ site_favicon }}" style="max-height:20px; max-width:20px;" />'.
+                            '<span id="navbar-caption" class="navbar-caption">'.$caption.'</span>'.
+                        '</span>&nbsp;'.
+                        '<span class="caret"></span>'.
+                    '</a>'.
                     $result.'</li>';
             }
             if (!$no_quicklink) {
                 $result .= $this->build_quicklink(null, true, $notif);
             }
             // toggle editing
+            $toggle_editing = '';
+            $edit_menu = '';
             if ($this->cms_user_is_super_admin()) {
                 if ($this->cms_editing_mode()) {
-                    $toggle_editing = '<span class="hidden-sm hidden-xs"><a id="__toggle_editing_off" href="#" class="btn btn-primary" style="font-size:small; transform:translateY(25%);">
-                        <i class="glyphicon glyphicon-eye-open"></i> Toggle View</a></span>';
+                    $toggle_editing = '<a id="__toggle_editing_off" href="#" class="hidden-xs" style="font-size:small;">'.
+                            '<i class="glyphicon glyphicon-eye-open"></i> Toggle View'.
+                        '</a>';
+                    $edit_menu = '<li class="dropdown hidden-xs" id="__edit_menu">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="http://localtest.me/No-CMS/main/management" style="padding-left: 15px; padding-right: 10px;"><i class="glyphicon glyphicon-pencil"></i> Edit <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown">
+                                <a href="{{ site_url }}main/manage_navigation">Navigation</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="{{ site_url }}main/manage_quicklink">Quicklink</a>
+                            </li>
+                            <li class="dropdown">
+                                <a id="__editing_section_top_fix_link" href="#">Top Section</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ site_url }}factory_reset"><i class="glyphicon glyphicon-repeat"></i> Factory Reset</a></li>
+                        </ul>
+                    </li>';
                 } else {
-                    $toggle_editing = '<span class="hidden-sm hidden-xs"><a id="__toggle_editing_on" href="#" class="btn btn-primary" style="font-size:small; transform:translateY(25%);">
-                        <i class="glyphicon glyphicon-pencil"></i> Toggle Edit</a></span>';
+                    $toggle_editing = '<a id="__toggle_editing_on" href="#" class="hidden-xs" style="font-size:small;">'.
+                            '<i class="glyphicon glyphicon-pencil"></i> Toggle Edit'.
+                        '</a>';
                 }
-            } else {
-                $toggle_editing = '';
             }
 
             $load_notif_script = '';
@@ -943,22 +968,22 @@ class Main extends CMS_Controller
                     $changer_script .= '$("#'.$badge_id.'").html(response.notif);';
                 }
                 $load_notif_script .= '$(document).ready(function(){
-                                    function __get_badge_'.$badge_index.'(){
-                                        $.ajax({
-                                            dataType:"json",
-                                            url: "'.addslashes($url).'",
-                                            success: function(response){
-                                                if(response.success){
-                                                    '.$changer_script.'
-                                                }
-                                            }
-                                        });
+                        function __get_badge_'.$badge_index.'(){
+                            $.ajax({
+                                dataType:"json",
+                                url: "'.addslashes($url).'",
+                                success: function(response){
+                                    if(response.success){
+                                        '.$changer_script.'
                                     }
-                                    __get_badge_'.$badge_index.'();
-                                    setInterval(function(){
-                                        __get_badge_'.$badge_index.'();
-                                    }, 50000);
-                                });';
+                                }
+                            });
+                        }
+                        __get_badge_'.$badge_index.'();
+                        setInterval(function(){
+                            __get_badge_'.$badge_index.'();
+                        }, 50000);
+                    });';
                 ++$badge_index;
             }
 
@@ -1023,8 +1048,15 @@ class Main extends CMS_Controller
                         /*padding-top: 50px;*/
                     }
                 }
+                .__editing_widget_top_navigation, .__editing_widget_top_navigation_inverse, .__editing_widget_top_navigation_default, .__editing_widget_top_navigation_inverse_fixed, .__editing_widget_top_navigation_default_fixed, .__editing_widget_top_navigation_inverse_static, .__editing_widget_top_navigation_default_static, .__editing_widget_section_top_fix{
+                    display:none;
+                }
+                .glyphicon-none:before {
+                    content: "\2122";
+                    color: transparent !important;
+                }
             </style>
-            <div class="navbar '.$navbar_class.'" role="navigation">
+            <div id="_top_navigation" class="navbar '.$navbar_class.'" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -1033,12 +1065,15 @@ class Main extends CMS_Controller
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="{{ site_url }}"><img src ="{{ site_favicon }}" style="max-height:20px; max-width:20px;" /></a>
+                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="{{ site_url }}">
+                            <img class="navbar-logo" src ="{{ site_favicon }}" style="max-height:20px; max-width:20px;" />
+                        </a>
                     </div>
                     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
                         <ul class="navbar-nav nav">'.$result.'</ul>
                         <ul class="navbar-nav nav navbar-right">
                             <li class="dropdown" id="__right_navbar">{{ widget_name:navigation_right_partial }}</li>
+                            '.$edit_menu.'
                             <li class="dropdown">'.$toggle_editing.'</li>
                         </ul>
                     </nav><!--/.nav-collapse -->
@@ -1055,8 +1090,10 @@ class Main extends CMS_Controller
                     $(".navbar-nav > li").css("font-size", _NAVBAR_LI_ORIGINAL_FONTSIZE);
                     if($(document).width()>=750){
                         var need_transform = true;
-                        while(need_transform){
+                        var trial_left = 50;
+                        while(need_transform && trial_left > 0){
                             need_transform = false;
+                            trial_left --;
                             for(var i=0; i<li_count; i++){
                                 var top = $(".navbar-nav > li")[i].offsetTop;
                                 if(top>$(".navbar-brand")[0].offsetTop){
@@ -1075,11 +1112,19 @@ class Main extends CMS_Controller
                                     // decrease the font
                                     var currentFontSize = $(".navbar-nav > li").css("font-size");
                                     var currentFontSizeNum = parseFloat(currentFontSize, 10);
-                                    var newFontSize = currentFontSizeNum * 0.95;
+                                    var newFontSize = currentFontSizeNum * 0.9;
                                     $(".navbar-nav > li").css("font-size", newFontSize);
                                 }
                             }
                         }
+                    }
+                    // #navbar-logo and #navbar-caption
+                    if($(document).width()>=750){
+                        $("#navbar-logo").show();
+                        $("#navbar-caption").hide();
+                    }else{
+                        $("#navbar-logo").hide();
+                        $("#navbar-caption").show();
                     }
                     // if it has navbar-fixed-top
                     if($("div.navbar").hasClass("navbar-fixed-top")){
@@ -1090,6 +1135,8 @@ class Main extends CMS_Controller
 
                 // MAIN PROGRAM
                 $(document).ready(function(){
+                    $("#__editing_section_top_fix_link").attr("href", $(".__editing_widget_section_top_fix a").attr("href"));
+
                     // override bootstrap default behavior on dropdown click
                     $("a.dropdown-toggle span.anchor-text").on("click touchstart", function(event){
                         if(event.stopPropagation){
@@ -1098,6 +1145,7 @@ class Main extends CMS_Controller
                         event.cancelBubble=true;
                         window.location = $(this).parent().attr("href");
                     });
+
                     // adjust navbar
                     __adjust_navbar();
                     $(window).resize(function() {
@@ -1315,5 +1363,15 @@ class Main extends CMS_Controller
         }
 
         return $html;
+    }
+
+    public function widget_user_button(){
+        if($this->cms_user_id() > 0){
+            echo '<a class="btn btn-primary btn-sm" href="{{ site_url }}main/change_profile">'.
+                '<img style="max-height:32px; margin-right:20px;" src="'.$this->cms_get_profile_picture($this->cms_user_id()).'" />'.
+                'Change Profile</a>';
+        }else{
+            echo '<a class="btn btn-primary btn-sm" href="{{ site_url }}main/login">Login</a>';
+        }
     }
 }

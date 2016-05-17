@@ -28,7 +28,10 @@
                     "name": "center_name",
                     "data_type": "varchar",
                     "data_size": "50",
-                    "role": null
+                    "role": null,
+                    "options": {
+                        "unique": true
+                    }
                 },
                 {
                     "caption": "Residing Address",
@@ -55,15 +58,19 @@
                     "caption": "State\/Region",
                     "name": "state_region",
                     "data_type": "varchar",
-                    "data_size": null,
-                    "role": null
+                    "data_size": "20",
+                    "role": null,
+                    "value_selection_mode": "enum",
+                    "value_selection_item": "\"Johor\",\"Kedah\",\"Kelantan\",\"Melaka\",\"Negeri Sembilan\",\"Pahang\",\"Pulau Pinang\",\"Perak\",\"Perlis\",\"Sabah\",\"Sarawak\",\"Selangor\",\"Terengganu\""
                 },
                 {
                     "caption": "Center Type",
                     "name": "center_type",
                     "data_type": "varchar",
-                    "data_size": null,
-                    "role": null
+                    "data_size": "20",
+                    "role": null,
+                    "value_selection_mode": "enum",
+                    "value_selection_item": "\"FLOOD CENTER\",\"DONATION COLLECTION CENTER\""
                 },
                 {
                     "caption": "Center Total Capacity",
@@ -120,7 +127,7 @@
                     "role": "primary"
                 },
                 {
-                    "caption": "Center Id",
+                    "caption": "Center Name",
                     "name": "center_id",
                     "data_type": "int",
                     "data_size": "10",
@@ -136,14 +143,33 @@
                     "name": "item_name",
                     "data_type": "varchar",
                     "data_size": "50",
-                    "role": null
+                    "role": "lookup",
+                    "lookup_table_name": "item",
+                    "lookup_column_name": "item_name",
+                    "lookup_table_primary_key": "item_id",
+                    "relation_table_name": "item",
+                    "relation_table_column_name": "item_name",
+                    "relation_priority_column_name": "item_name",
+                    "relation_selection_column_name": "item_name",
+                    "selection_table_name": "item",
+                    "selection_column_name": "item_name",
+                    "selection_table_primary_key": "item_id",
+                    "options": {
+                        "unique": true
+                    }
                 },
                 {
                     "caption": "Item Type",
                     "name": "item_type",
                     "data_type": "varchar",
                     "data_size": "50",
-                    "role": null
+                    "role": "lookup",
+                    "lookup_table_name": "item_type",
+                    "lookup_column_name": "item_type",
+                    "lookup_table_primary_key": "item_type_id",
+                    "options": {
+                        "unique": true
+                    }
                 },
                 {
                     "caption": "Quantity",
@@ -205,7 +231,7 @@
                     "role": "primary"
                 },
                 {
-                    "caption": "Center Id",
+                    "caption": "Center Name",
                     "name": "center_id",
                     "data_type": "int",
                     "data_size": "10",
@@ -237,8 +263,7 @@
                     "data_size": null,
                     "role": null,
                     "options": {
-                        "validation_integer": true,
-                        "validation_natural_no_zero": true
+                        "validation_integer": true
                     }
                 },
                 {
@@ -267,14 +292,19 @@
                     "name": "postal_code",
                     "data_type": "int",
                     "data_size": null,
-                    "role": null
+                    "role": null,
+                    "options": {
+                        "validation_integer": true
+                    }
                 },
                 {
                     "caption": "State\/Region",
                     "name": "state_region",
                     "data_type": "varchar",
-                    "data_size": null,
-                    "role": null
+                    "data_size": "20",
+                    "role": null,
+                    "value_selection_mode": "enum",
+                    "value_selection_item": "\"Johor\",\"Kedah\",\"Kelantan\",\"Melaka\",\"Negeri Sembilan\",\"Pahang\",\"Pulau Pinang\",\"Perak\",\"Perlis\",\"Sabah\",\"Sarawak\",\"Selangor\",\"Terengganu\""
                 },
                 {
                     "caption": "Current IPTA\/IPTS",
@@ -287,8 +317,10 @@
                     "caption": "Victim Status",
                     "name": "victim_status",
                     "data_type": "varchar",
-                    "data_size": null,
-                    "role": null
+                    "data_size": 255,
+                    "role": null,
+                    "value_selection_mode": "enum",
+                    "value_selection_item": "\"In\",\"Out\""
                 },
                 {
                     "caption": "Victim Enter Date",
@@ -303,6 +335,54 @@
                     "data_type": "timestamp",
                     "data_size": null,
                     "role": null
+                }
+            ]
+        },
+        {
+            "name": "item",
+            "caption": "item detail",
+            "data": null,
+            "columns": [
+                {
+                    "caption": "id",
+                    "name": "item_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "primary"
+                },
+                {
+                    "caption": "Item Name",
+                    "name": "item_name",
+                    "data_type": "varchar",
+                    "data_size": "20",
+                    "role": null,
+                    "options": {
+                        "unique": true
+                    }
+                }
+            ]
+        },
+        {
+            "name": "item_type",
+            "caption": "Type Of Item Detail",
+            "data": null,
+            "columns": [
+                {
+                    "caption": "id",
+                    "name": "item_type_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "primary"
+                },
+                {
+                    "caption": "Item Type",
+                    "name": "item_type",
+                    "data_type": "varchar",
+                    "data_size": "50",
+                    "role": null,
+                    "options": {
+                        "unique": true
+                    }
                 }
             ]
         }

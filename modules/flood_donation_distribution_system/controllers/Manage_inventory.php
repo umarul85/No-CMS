@@ -42,7 +42,7 @@ class Manage_inventory extends CMS_CRUD_Controller {
         //$crud->set_read_fields('center_id', 'item_name', 'item_type', 'quantity', 'donator_name', 'receiver_name', 'received_date', 'send_date', 'remark');
 
         // caption of each columns
-        $crud->display_as('center_id','Center Id');
+        $crud->display_as('center_id','Center Name');
         $crud->display_as('item_name','Item Name');
         $crud->display_as('item_type','Item Type');
         $crud->display_as('quantity','Quantity');
@@ -82,7 +82,7 @@ class Manage_inventory extends CMS_CRUD_Controller {
         // eg:
         //      $crud->unique_fields( $field1, $field2, $field3, ... );
         ////////////////////////////////////////////////////////////////////////
-        
+        $crud->unique_fields('item_name', 'item_type');
 
         ////////////////////////////////////////////////////////////////////////
         // HINT: Put field validation codes here
@@ -99,6 +99,8 @@ class Manage_inventory extends CMS_CRUD_Controller {
         //      $crud->set_relation( $field_name , $related_table, $related_title_field , $where , $order_by );
         ////////////////////////////////////////////////////////////////////////
         $crud->set_relation('center_id', $this->t('center'), 'center_name');
+        $crud->set_relation('item_name', $this->t('item'), 'item_name');
+        $crud->set_relation('item_type', $this->t('item_type'), 'item_type');
 
         ////////////////////////////////////////////////////////////////////////
         // HINT: Put set relation_n_n (detail many to many) codes here

@@ -42,7 +42,7 @@ class Manage_flood_victim_detail extends CMS_CRUD_Controller {
         //$crud->set_read_fields('center_id', 'victim_name', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date');
 
         // caption of each columns
-        $crud->display_as('center_id','Center Id');
+        $crud->display_as('center_id','Center Name');
         $crud->display_as('victim_name','Victim Name');
         $crud->display_as('gender','Gender');
         $crud->display_as('age','Age');
@@ -94,7 +94,8 @@ class Manage_flood_victim_detail extends CMS_CRUD_Controller {
         // eg:
         //      $crud->set_rules( $field_name , $caption, $filter );
         ////////////////////////////////////////////////////////////////////////
-        $crud->set_rules('age', 'Age', 'integer|natural_no_zero');
+        $crud->set_rules('age', 'Age', 'integer');
+        $crud->set_rules('postal_code', 'Postal Code', 'integer');
 
 
         ////////////////////////////////////////////////////////////////////////
@@ -121,6 +122,8 @@ class Manage_flood_victim_detail extends CMS_CRUD_Controller {
         //      $crud->field_type( $field_name , $field_type, $value  );
         ////////////////////////////////////////////////////////////////////////
         $crud->field_type('gender', 'enum', array("male","female"));
+        $crud->field_type('state_region', 'enum', array("Johor","Kedah","Kelantan","Melaka","Negeri Sembilan","Pahang","Pulau Pinang","Perak","Perlis","Sabah","Sarawak","Selangor","Terengganu"));
+        $crud->field_type('victim_status', 'enum', array("In","Out"));
 
 
 

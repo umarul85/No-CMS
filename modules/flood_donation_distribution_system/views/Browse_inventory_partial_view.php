@@ -10,20 +10,20 @@ foreach($result as $record){
     $contents .= '<tbody>';
 
     // COLUMNS
-    //CENTER ID
+    //CENTER NAME
     $contents .= '<tr>';
-    $contents .= '<th>Center Id</th>';
+    $contents .= '<th>Center Name</th>';
     $contents .= '<td>' . $record->center_center_name . '</td>';
     $contents .= '</tr>';
     //ITEM NAME
     $contents .= '<tr>';
     $contents .= '<th>Item Name</th>';
-    $contents .= '<td>' . $record->item_name . '</td>';
+    $contents .= '<td>' . $record->item_item_name . '</td>';
     $contents .= '</tr>';
     //ITEM TYPE
     $contents .= '<tr>';
     $contents .= '<th>Item Type</th>';
-    $contents .= '<td>' . $record->item_type . '</td>';
+    $contents .= '<td>' . $record->item_type_item_type . '</td>';
     $contents .= '</tr>';
     //QUANTITY
     $contents .= '<tr>';

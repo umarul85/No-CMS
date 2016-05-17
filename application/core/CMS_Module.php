@@ -23,7 +23,6 @@ class CMS_Module extends CMS_Controller
     protected $OLD_VERSION = '';
     protected $ERROR_MESSAGE = '';
     protected $PUBLIC = true;
-    protected $SUBSITE_ALLOWED = array();
 
     // These should be overridden by module developer
     protected $BACKEND_NAVIGATIONS = array(); // manage blah blah blah, has privileges too, associative array
@@ -117,7 +116,7 @@ class CMS_Module extends CMS_Controller
             'version' => $this->VERSION,
             'old_version' => $this->OLD_VERSION,
             'public' => $this->PUBLIC,
-            'subsite_allowed' => $this->SUBSITE_ALLOWED,
+            'published' => $this->PUBLISHED,
         );
         echo json_encode($result);
     }
@@ -162,7 +161,7 @@ class CMS_Module extends CMS_Controller
             'dependencies' => $this->DEPENDENCIES,
         );
 
-        if (CMS_SUBSITE != '' && !$this->PUBLIC && !in_array(CMS_SUBSITE, $this->SUBSITE_ALLOWED)) {
+        if (CMS_SUBSITE != '' && !$this->PUBLISHED) {
             $result['message'][] = 'The module is not published for '.CMS_SUBSITE.' subsite';
             $result['success'] = false;
         }
@@ -231,7 +230,7 @@ class CMS_Module extends CMS_Controller
             'dependencies' => array(),
         );
 
-        if (CMS_SUBSITE != '' && !$this->PUBLIC && !in_array(CMS_SUBSITE, $this->SUBSITE_ALLOWED)) {
+        if (CMS_SUBSITE != '' && !$this->PUBLISHED) {
             $result['message'][] = 'The module is not published for '.CMS_SUBSITE.' subsite';
             $result['success'] = false;
         }
@@ -303,7 +302,7 @@ class CMS_Module extends CMS_Controller
             'dependencies' => array(),
         );
 
-        if (!$bypass && CMS_SUBSITE != '' && !$this->PUBLIC && !in_array(CMS_SUBSITE, $this->SUBSITE_ALLOWED)) {
+        if (!$bypass && CMS_SUBSITE != '' && !$this->PUBLISHED) {
             $result['message'][] = 'The module is not published for '.CMS_SUBSITE.' subsite';
             $result['success'] = false;
         }
@@ -327,55 +326,43 @@ class CMS_Module extends CMS_Controller
             $module_path = $this->cms_module_path();
             $this->__build_all('upgrade');
 
-            // get current major, minor and rev version
+            // get current version and old version components
             $current_version_component = explode('-', $this->VERSION);
             $current_version_component = $current_version_component[0];
             $current_version_component = explode('.', $current_version_component);
-            $current_major_version = $current_version_component[0];
-            $current_minor_version = $current_version_component[1];
-            $current_rev_version = $current_version_component[2];
-            // get old major, minor and rev version
             $old_version_component = explode('-', $this->OLD_VERSION);
             $old_version_component = $old_version_component[0];
             $old_version_component = explode('.', $old_version_component);
-            $old_major_version = $old_version_component[0];
-            $old_minor_version = $old_version_component[1];
-            $old_rev_version = $old_version_component[2];
-            // upgrade by using do_upgrade_to_x_x_x function
-            if($old_major_version != $current_major_version || $old_minor_version != $current_minor_version || $old_rev_version != $current_rev_version){
-                // update
-                if($old_major_version <= $current_major_version){
-                    for($i = $old_major_version; $i <= $current_major_version; $i++){
-                        // determine max minor version
-                        $max_minor_version = 9;
-                        $min_minor_version = 0;
-                        if($i == $current_major_version){
-                            $max_minor_version = $current_minor_version;
-                        }
-                        if($i == $old_major_version){
-                            $min_minor_version = $old_minor_version;
-                        }
-                        // do until max minor version
-                        for($j=$min_minor_version; $j <= $max_minor_version; $j++){
-                            // determine max minor version
-                            $max_rev_version = 9;
-                            $min_rev_version = 0;
-                            if($i == $current_major_version && $j == $max_minor_version){
-                                $max_rev_version = $current_rev_version;
-                            }
-                            if($i == $old_major_version && $j == $old_minor_version){
-                                $min_rev_version = $old_rev_version + 1;
-                            }
-                            if($min_rev_version > 9){
-                                break;
-                            }
-                            // do until max rev version
-                            for($k=$min_rev_version; $k<=$max_rev_version; $k++){
-                                $method = 'do_upgrade_to_'.$i.'_'.$j.'_'.$k;
-                                if(method_exists($this, $method)){
-                                    call_user_func_array(array($this, $method), array());
-                                }
-                            }
+
+            // the version should contains 3 parts, major, minor, and rev
+            if(count($old_version_component) >=3 && count($current_version_component) >=3){
+                $current_major_version = $current_version_component[0];
+                $current_minor_version = $current_version_component[1];
+                $current_rev_version = $current_version_component[2];
+                $old_major_version = $old_version_component[0];
+                $old_minor_version = $old_version_component[1];
+                $old_rev_version = $old_version_component[2];
+                // each part of the old and current version should be numeric
+                if(is_numeric($current_major_version) && is_numeric($current_minor_version) && is_numeric($current_rev_version) && is_numeric($old_major_version) && is_numeric($old_minor_version) && is_numeric($old_rev_version)){
+                    $factor = 100;
+                    // if the assumption is false, than make a new factor
+                    while($current_major_version > $factor || $current_minor_version > $factor || $current_rev_version > $factor || $old_major_version > $factor || $old_minor_version > $factor || $old_rev_version > $factor ){
+                        $factor *= 10;
+                    }
+                    $major_factor = pow($factor, 2);
+                    $minor_factor = pow($factor, 1);
+                    $current_int = $current_major_version * $major_factor + $current_minor_version * $minor_factor + $current_rev_version;
+                    $old_int = $old_major_version * $major_factor + $old_minor_version * $minor_factor + $old_rev_version;
+                    for($i=$old_int+1; $i<=$current_int; $i++){
+                        // get back major version, minor version, and rev version
+                        $major_version = floor($i / $major_factor);
+                        $minor_version = floor(($i- $major_version*$major_factor) / $minor_factor);
+                        $rev_version = ($i - $major_version*$major_factor - $minor_version*$minor_factor);
+                        // get method name
+                        $method = 'do_upgrade_to_'.$major_version.'_'.$minor_version.'_'.$rev_version;
+                        // call the method if exists
+                        if(method_exists($this, $method)){
+                            call_user_func_array(array($this, $method), array());
                         }
                     }
                 }
@@ -603,21 +590,30 @@ class CMS_Module extends CMS_Controller
                 $fields['_created_by'] = $this->TYPE_INT_SIGNED_NULL;
                 $fields['_updated_by'] = $this->TYPE_INT_SIGNED_NULL;
 
-                $field_list = $this->db->list_fields($this->t($table_name));
-                // missing fields and modified field
-                $modified_fields = array();
-                $missing_fields = array();
-                foreach($fields as $key=>$value){
-                    if(!in_array($key, $field_list)){
-                        $missing_fields[$key] = $value;
-                    }else{
-                        $modified_fields[$key] = $value;
+                $table_exists = $this->db->table_exists($this->t($table_name));
+                // create table if not exists or modify table if exists
+                if(!$table_exists){
+                    $key = $this->__get_from_array($data, 'key', 'id');
+                    $this->dbforge->add_field($fields);
+                    $this->dbforge->add_key($key, true);
+                    $this->dbforge->create_table($this->t($table_name));
+                }else{
+                    $field_list = $this->db->list_fields($this->t($table_name));
+                    // missing fields and modified field
+                    $modified_fields = array();
+                    $missing_fields = array();
+                    foreach($fields as $key=>$value){
+                        if(!in_array($key, $field_list)){
+                            $missing_fields[$key] = $value;
+                        }else{
+                            $modified_fields[$key] = $value;
+                        }
                     }
+                    // add missing fields
+                    $this->dbforge->add_column($this->t($table_name), $missing_fields);
+                    // modify fields
+                    $this->dbforge->modify_column($this->t($table_name), $modified_fields);
                 }
-                // add missing fields
-                $this->dbforge->add_column($this->t($table_name), $missing_fields);
-                // modify fields
-                $this->dbforge->modify_column($this->t($table_name), $modified_fields);
             }
             // INSERT OR UPDATE DATA
             foreach ($this->DATA as $table_name => $data) {

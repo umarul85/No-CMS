@@ -119,6 +119,36 @@ class Info extends CMS_Module {
                 'hidden'            => NULL,
                 'static_content'    => NULL,
             ),
+            // Manage item detail
+            array(
+                'entity_name'       => 'item',
+                'url'               => 'manage_item',
+                'authorization_id'  => PRIV_AUTHORIZED,
+                'default_layout'    => 'default-one-column',
+                'title'             => 'Manage item detail',
+                'parent_name'       => 'index',
+                'index'             => NULL,
+                'description'       => NULL,
+                'bootstrap_glyph'   => NULL,
+                'notification_url'  => NULL,
+                'hidden'            => NULL,
+                'static_content'    => NULL,
+            ),
+            // Manage Type Of Item Detail
+            array(
+                'entity_name'       => 'item_type',
+                'url'               => 'manage_item_type',
+                'authorization_id'  => PRIV_AUTHORIZED,
+                'default_layout'    => 'default-one-column',
+                'title'             => 'Manage Type Of Item Detail',
+                'parent_name'       => 'index',
+                'index'             => NULL,
+                'description'       => NULL,
+                'bootstrap_glyph'   => NULL,
+                'notification_url'  => NULL,
+                'hidden'            => NULL,
+                'static_content'    => NULL,
+            ),
 
         );
 
@@ -140,7 +170,7 @@ class Info extends CMS_Module {
         );
     protected $GROUP_NAVIGATIONS = array();
     protected $GROUP_BACKEND_NAVIGATIONS = array(
-            'Flood Donation Distribution System Manager' => array('center', 'inventory', 'flood_victim_detail')
+            'Flood Donation Distribution System Manager' => array('center', 'inventory', 'flood_victim_detail', 'item', 'item_type')
         );
     protected $GROUP_PRIVILEGES = array();
     protected $GROUP_BACKEND_PRIVILEGES = array(
@@ -148,6 +178,8 @@ class Info extends CMS_Module {
                 'center' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
                 'inventory' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
                 'flood_victim_detail' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
+                'item' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
+                'item_type' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
             )
         );
 
@@ -164,8 +196,8 @@ class Info extends CMS_Module {
                 'residing_address'     => array("type" => 'tinytext',   "null" => TRUE),
                 'city'                 => array("type" => 'varchar',    "constraint" => 11,  "null" => TRUE),
                 'postal_code'          => array("type" => 'int',        "constraint" => 11,  "null" => TRUE),
-                'state_region'         => array("type" => 'varchar',    "constraint" => 11,  "null" => TRUE),
-                'center_type'          => array("type" => 'varchar',    "constraint" => 11,  "null" => TRUE),
+                'state_region'         => array("type" => 'enum',    "constraint" => array("Johor","Kedah","Kelantan","Melaka","Negeri Sembilan","Pahang","Pulau Pinang","Perak","Perlis","Sabah","Sarawak","Selangor","Terengganu"), "null" => TRUE),
+                'center_type'          => array("type" => 'enum',    "constraint" => array("FLOOD CENTER","DONATION COLLECTION CENTER"), "null" => TRUE),
                 'center_total_capacity' => array("type" => 'int',        "constraint" => 11,  "null" => TRUE),
                 'center_current_cappacity' => array("type" => 'int',        "constraint" => 11,  "null" => TRUE),
                 'center_status'        => array("type" => 'enum',    "constraint" => array("Open","Closed"), "null" => TRUE),
@@ -202,11 +234,27 @@ class Info extends CMS_Module {
                 'home_address'         => array("type" => 'tinytext',   "null" => TRUE),
                 'city'                 => array("type" => 'varchar',    "constraint" => 11,  "null" => TRUE),
                 'postal_code'          => array("type" => 'int',        "constraint" => 11,  "null" => TRUE),
-                'state_region'         => array("type" => 'varchar',    "constraint" => 11,  "null" => TRUE),
+                'state_region'         => array("type" => 'enum',    "constraint" => array("Johor","Kedah","Kelantan","Melaka","Negeri Sembilan","Pahang","Pulau Pinang","Perak","Perlis","Sabah","Sarawak","Selangor","Terengganu"), "null" => TRUE),
                 'current_ipta_ipts'    => array("type" => 'varchar',    "constraint" => 11,  "null" => TRUE),
-                'victim_status'        => array("type" => 'varchar',    "constraint" => 11,  "null" => TRUE),
+                'victim_status'        => array("type" => 'enum',    "constraint" => array("In","Out"), "null" => TRUE),
                 'victim_enter_date'    => array("type" => 'timestamp',  "null" => TRUE),
                 'victim_out_date'      => array("type" => 'timestamp',  "null" => TRUE),
+            ),
+        ),
+        // item
+        'item' => array(
+            'key'    => 'item_id',
+            'fields' => array(
+                'item_id'              => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
+                'item_name'            => array("type" => 'varchar',    "constraint" => 20,  "null" => TRUE),
+            ),
+        ),
+        // item_type
+        'item_type' => array(
+            'key'    => 'item_type_id',
+            'fields' => array(
+                'item_type_id'         => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
+                'item_type'            => array("type" => 'varchar',    "constraint" => 50,  "null" => TRUE),
             ),
         ),
     );

@@ -681,6 +681,9 @@ class CMS_Model extends CI_Model
         if (strpos($str, '<?php') !== false && strpos($str, '$route') !== false) {
             @file_put_contents($file_name, $str);
             @chmod($file_name, 0555);
+            if(function_exists('opcache_invalidate')){
+                opcache_invalidate($file_name);
+            }
         }
     }
 
@@ -754,7 +757,7 @@ class CMS_Model extends CI_Model
             $pp = $user_record->profile_picture;
             if($pp == NULL && $this->cms_is_connect('www.gravatar.com')){
                 // take from gravatar
-                $pp = 'http://www.gravatar.com/avatar/'.md5($user_record->email).'?s=32&r=pg&d=identicon';
+                $pp = 'http://www.gravatar.com/avatar/'.md5($user_record->email).'?s=256&r=pg&d=identicon';
             }else if($pp == NULL){
                 // take from default profile picture
                 $pp = $real_base_url.'assets/nocms/images/default-profile-picture.png';
@@ -1252,15 +1255,22 @@ class CMS_Model extends CI_Model
                 }
             }
 
+            $editing_mode_content = '';
+            if ($this->cms_editing_mode() && $this->cms_allow_navigate('main_widget_management') && $this->cms_have_privilege('edit_main_widget')) {
+                $editing_mode_content = '<div class="__editing_widget_'.str_replace(' ', '_', $row->widget_name).'">'.
+                    '<a style="margin-bottom:2px; margin-top:2px;" class="btn btn-default btn-xs pull-right" href="{{ SITE_URL }}main/manage_widget/index/edit/'.$row->widget_id.'">'.
+                        '<i class="glyphicon glyphicon-pencil"></i> <strong>'.ucwords(str_replace('_', ' ', $row->widget_name)). '</strong>'.
+                    '</a><div style="clear:both"></div>'.
+                '</div>';
+            }
+
             // generate widget content
             $content = '';
             if ($row->is_static == 1) {
-                $content = $row->static_content;
-                if (substr($row->widget_name, 0, 8) != 'section_' && $content != '' && $this->cms_editing_mode() && $this->cms_allow_navigate('main_widget_management')) {
-                    $content = '<div class="row" style="padding-top:10px; padding-bottom:10px;"><a class="btn btn-primary pull-right" href="{{ SITE_URL }}main/manage_widget/index/edit/'.$row->widget_id.'">'.
-                        '<i class="glyphicon glyphicon-pencil"></i>'.
-                        '</a></div>'.$content;
+                if(trim($row->static_content) != ''){
+                    $content .= $editing_mode_content;
                 }
+                $content .= $row->static_content;
             } else {
                 // url
                 $url = $row->url;
@@ -1290,6 +1300,10 @@ class CMS_Model extends CI_Model
                     // add the content
                     if (isset($response)) {
                         $response = preg_replace('#(href|src|action)="([^:"]*)(?:")#', '$1="'.$url.'/$2"', $response);
+                        // add editing mode content
+                        if(trim($row->response) != ''){
+                            $content .= $editing_mode_content;
+                        }
                         $content .= $response;
                     }
                 } else {
@@ -1315,6 +1329,10 @@ class CMS_Model extends CI_Model
                         $response = '<script type="text/javascript">';
                         $response .= '$(document).ready(function(){$("#__cms_widget_'.$row->widget_id.'").load("'.site_url($url).'?__cms_dynamic_widget=TRUE");});';
                         $response .= '</script>';
+                    }
+                    // add editing mode content
+                    if(trim($response) != ''){
+                        $content .= $editing_mode_content;
                     }
                     $content .= $response;
                 }
@@ -1570,42 +1588,42 @@ class CMS_Model extends CI_Model
         $user_email = null;
         $login_succeed = false;
 
-        // try to login as a user of specific subsite
-        if (CMS_SUBSITE != '') {
-            $query = $this->db->query('SELECT user_id, user_name, real_name, email FROM '.$this->cms_user_table_name()." WHERE
-                    (user_name = '".addslashes($identity)."' OR email = '".addslashes($identity)."') AND
-                    password = '".cms_md5($password)."' AND
-                    subsite = '".CMS_SUBSITE."' AND
-                    active = 1");
-            if ($query->num_rows() > 0) {
-                $row = $query->row();
-                $user_name = $row->user_name;
-                $user_id = $row->user_id;
-                $user_real_name = $row->real_name;
-                $user_email = $row->email;
-                $login_succeed = true;
+        // define where clause to match password and subsite. subsite also look for main_site's user
+        $this->db->group_start()
+            ->group_start() // match with main site user
+                ->where('password', cms_md5($password, $this->cms_chipper()))
+                ->group_start()
+                    ->where('subsite', NULL)
+                    ->or_where('subsite', '')
+                ->group_end()
+            ->group_end();
+            if(CMS_SUBSITE != ''){
+                $this->db->or_group_start() // or match with subsite's user
+                    ->where('password', cms_md5($password))
+                    ->where('subsite', CMS_SUBSITE)
+                ->group_end();
             }
-        }
+        $this->db->group_end();
+        // define query
+        $query = $this->db->select('user_id, user_name, real_name, email')
+            ->from($this->cms_user_table_name())
+            ->where('active', 1)
+            ->group_start()
+                ->where('user_name', $identity)
+                ->or_where('email', $identity)
+            ->group_end()
+            ->order_by('subsite', 'desc') // prioritize subsite user
+            ->get();
 
-        // if login not succeed, try to login as main user
-        if (!$login_succeed) {
-            // do the query
-            $query = $this->db->query('SELECT user_id, user_name, real_name, email FROM '.$this->cms_user_table_name()." WHERE
-                    (user_name = '".addslashes($identity)."' OR email = '".addslashes($identity)."') AND
-                    password = '".cms_md5($password, $this->cms_chipper())."' AND
-                    subsite IS NULL AND
-                    active = 1");
-            if ($query->num_rows() > 0) {
-                $row = $query->row();
-                $user_name = $row->user_name;
-                $user_id = $row->user_id;
-                $user_real_name = $row->real_name;
-                $user_email = $row->email;
-                $login_succeed = true;
-            }
-        }
-
-        if (!$login_succeed) {
+        // if login succeed, get user_name, user_id, real_name, and email, otherwise try the hook
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $user_name = $row->user_name;
+            $user_id = $row->user_id;
+            $user_real_name = $row->real_name;
+            $user_email = $row->email;
+            $login_succeed = TRUE;
+        } else {
             $extended_login_result_list = $this->cms_call_hook('cms_login', array($identity, $password));
             foreach($extended_login_result_list as $extended_login_result) {
                 if ($extended_login_result !== false && $extended_login_result !== NULL) {
@@ -1659,6 +1677,7 @@ class CMS_Model extends CI_Model
             }
         }
 
+        // cache it
         if ($login_succeed) {
             $this->cms_user_name($user_name);
             $this->cms_user_id($user_id);
@@ -3548,15 +3567,32 @@ class CMS_Model extends CI_Model
      */
     public function cms_is_user_exists($identity, $exception_user_id = 0)
     {
-        $query = $this->db->query('SELECT user_id, user_name FROM '.$this->cms_user_table_name().' '.
-            'WHERE
-                (user_name LIKE \''.addslashes($identity).'\' OR email LIKE \''.addslashes($identity).'\') AND
-                (user_id <> '.addslashes($exception_user_id).')');
+        // for subsite, the user should not match any user in main site and current subsite
+        // for main site, the user should not match any user in main site
+        if (CMS_SUBSITE == ''){
+            $this->db->group_start()
+                ->where('subsite', '')
+                ->or_where('subsite', NULL)
+            ->group_end();
+        }else{
+            $this->db->group_start()
+                ->where('subsite', '')
+                ->or_where('subsite', NULL)
+                ->or_where('subsite', CMS_SUBSITE)
+            ->group_end();
+        }
+        $query = $this->db->select('user_id, user_name')
+            ->from($this->cms_user_table_name())
+            ->where('user_id <>', $exception_user_id)
+            ->group_start()
+                ->where('user_name', $identity)
+                ->or_where('email', $identity)
+            ->group_end()
+            ->get();
         $num_rows = $query->num_rows();
         if ($num_rows > 0) {
             return true;
         }
-
         return false;
     }
 

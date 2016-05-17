@@ -5,7 +5,6 @@
  *
  * @author No-CMS Module Generator
  */
-
 class Manage_center extends CMS_CRUD_Controller {
 
     protected $URL_MAP = array();
@@ -24,14 +23,6 @@ class Manage_center extends CMS_CRUD_Controller {
 
     protected function make_crud(){
         $crud = parent::make_crud();
-        
-        $curr_user_id=$_SESSION["cms_user_id"];        
-        $query = $this->db->query("SELECT group_id FROM cms_main_group_user WHERE user_id = '$curr_user_id'");
-        $row = $query->row_array();
-       // echo $row['group_id'];
-        
-        //view current user
-        //$crud->where('_created_by',$_SESSION["cms_user_id"]);
 
         ////////////////////////////////////////////////////////////////////////
         // HINT: You can access this variables after calling parent's make_crud method:
@@ -40,7 +31,7 @@ class Manage_center extends CMS_CRUD_Controller {
         //      $this->STATE_INFO
         //      $this->PK_VALUE
         ////////////////////////////////////////////////////////////////////////
-        
+
         // set subject
         $crud->set_subject('Center');
 
@@ -93,7 +84,7 @@ class Manage_center extends CMS_CRUD_Controller {
         // eg:
         //      $crud->unique_fields( $field1, $field2, $field3, ... );
         ////////////////////////////////////////////////////////////////////////
-        
+        $crud->unique_fields('center_name');
 
         ////////////////////////////////////////////////////////////////////////
         // HINT: Put field validation codes here
@@ -126,6 +117,8 @@ class Manage_center extends CMS_CRUD_Controller {
         // eg:
         //      $crud->field_type( $field_name , $field_type, $value  );
         ////////////////////////////////////////////////////////////////////////
+        $crud->field_type('state_region', 'enum', array("Johor","Kedah","Kelantan","Melaka","Negeri Sembilan","Pahang","Pulau Pinang","Perak","Perlis","Sabah","Sarawak","Selangor","Terengganu"));
+        $crud->field_type('center_type', 'enum', array("FLOOD CENTER","DONATION COLLECTION CENTER"));
         $crud->field_type('center_status', 'enum', array("Open","Closed"));
 
 
@@ -173,7 +166,6 @@ class Manage_center extends CMS_CRUD_Controller {
     }
 
     public function index(){
-        
         // create crud
         $crud = $this->make_crud();
 

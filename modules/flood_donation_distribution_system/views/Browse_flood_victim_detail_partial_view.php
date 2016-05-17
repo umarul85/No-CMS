@@ -10,9 +10,9 @@ foreach($result as $record){
     $contents .= '<tbody>';
 
     // COLUMNS
-    //CENTER ID
+    //CENTER NAME
     $contents .= '<tr>';
-    $contents .= '<th>Center Id</th>';
+    $contents .= '<th>Center Name</th>';
     $contents .= '<td>' . $record->center_center_name . '</td>';
     $contents .= '</tr>';
     //VICTIM NAME
