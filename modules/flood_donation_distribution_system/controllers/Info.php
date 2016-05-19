@@ -149,6 +149,21 @@ class Info extends CMS_Module {
                 'hidden'            => NULL,
                 'static_content'    => NULL,
             ),
+            // Manage Transfer Item To Other
+            array(
+                'entity_name'       => 'transfer',
+                'url'               => 'manage_transfer',
+                'authorization_id'  => PRIV_AUTHORIZED,
+                'default_layout'    => 'default-one-column',
+                'title'             => 'Manage Transfer Item To Other',
+                'parent_name'       => 'index',
+                'index'             => NULL,
+                'description'       => NULL,
+                'bootstrap_glyph'   => NULL,
+                'notification_url'  => NULL,
+                'hidden'            => NULL,
+                'static_content'    => NULL,
+            ),
 
         );
 
@@ -170,7 +185,7 @@ class Info extends CMS_Module {
         );
     protected $GROUP_NAVIGATIONS = array();
     protected $GROUP_BACKEND_NAVIGATIONS = array(
-            'Flood Donation Distribution System Manager' => array('center', 'inventory', 'flood_victim_detail', 'item', 'item_type')
+            'Flood Donation Distribution System Manager' => array('center', 'inventory', 'flood_victim_detail', 'item', 'item_type', 'transfer')
         );
     protected $GROUP_PRIVILEGES = array();
     protected $GROUP_BACKEND_PRIVILEGES = array(
@@ -180,6 +195,7 @@ class Info extends CMS_Module {
                 'flood_victim_detail' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
                 'item' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
                 'item_type' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
+                'transfer' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
             )
         );
 
@@ -255,6 +271,14 @@ class Info extends CMS_Module {
             'fields' => array(
                 'item_type_id'         => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
                 'item_type'            => array("type" => 'varchar',    "constraint" => 50,  "null" => TRUE),
+            ),
+        ),
+        // transfer
+        'transfer' => array(
+            'key'    => 'transfer_id',
+            'fields' => array(
+                'transfer_id'          => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
+                'item_name'            => array("type" => 'varchar',    "constraint" => 20,  "null" => TRUE),
             ),
         ),
     );

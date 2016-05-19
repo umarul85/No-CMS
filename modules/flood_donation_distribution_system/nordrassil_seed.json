@@ -385,6 +385,32 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "transfer",
+            "caption": "Transfer Item To Other",
+            "data": null,
+            "columns": [
+                {
+                    "caption": "Transfer Id",
+                    "name": "transfer_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "primary"
+                },
+                {
+                    "caption": "Item Name",
+                    "name": "item_name",
+                    "data_type": "varchar",
+                    "data_size": "20",
+                    "role": "detail one to many",
+                    "lookup_table_name": "inventory",
+                    "lookup_column_name": "item_name",
+                    "lookup_table_primary_key": "inventory_id",
+                    "relation_table_name": "inventory",
+                    "relation_table_column_name": "inventory_id"
+                }
+            ]
         }
     ]
 }
