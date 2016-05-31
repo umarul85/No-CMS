@@ -6,6 +6,23 @@
 
     $this->set_js_lib($this->default_javascript_path.'/jquery_plugins/jquery.noty.js');
     $this->set_js_lib($this->default_javascript_path.'/jquery_plugins/config/jquery.noty.config.js');
+
+    if(isset($_GET['from'])){
+		if(strpos($list_url, '&from=') === FALSE && strpos($list_url, '?from=') === FALSE){
+    		if(strpos($list_url, '?') !== FALSE){
+    			$list_url .= '&from='.$_GET['from'];
+    		}else{
+    			$list_url .= '?from='.$_GET['from'];
+    		}
+        }
+        if(strpos($insert_url, '&from=') === FALSE && strpos($insert_url, '?from=') === FALSE){
+    		if(strpos($insert_url, '?') !== FALSE){
+    			$insert_url .= '&from='.$_GET['from'];
+    		}else{
+    			$insert_url .= '?from='.$_GET['from'];
+    		}
+        }
+	}
 ?>
 <div class="flexigrid crud-form" data-unique-hash="<?php echo $unique_hash; ?>">
     <div class="mDiv">

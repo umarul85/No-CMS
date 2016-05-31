@@ -78,6 +78,7 @@ class CMS_Model extends CI_Model
                 'quicklink' => array(),         // cache already built quicklink
                 'widget' => array(),            // cache raw query
                 'layout' => array(),            // cache as associative array layout_name => template
+                'layout_id' => array(),         // cache as associative array layout_name => layout_id
                 'super_admin' => null,
                 'group_name' => array(),
                 'group_id' => array(),
@@ -207,7 +208,7 @@ class CMS_Model extends CI_Model
                     } elseif (substr($file, 0, 7) == '_secret' || substr($file, 0, 6) == '_token') {
                         $file = APPPATH.'config/tmp/'.$file;
                         if (file_exists($file) && filemtime($file) < strtotime('-1 hour')) {
-                            unlink($file);
+                            @unlink($file);
                         }
                     }
                 }
@@ -254,11 +255,42 @@ class CMS_Model extends CI_Model
     }
 
     public function cms_invalidate_cache(){
+        self::$__cms_model_properties['is_super_admin'] = false;
         self::$__cms_model_properties['is_config_cached'] = false;
+        self::$__cms_model_properties['is_module_name_cached'] = false;
+        self::$__cms_model_properties['is_module_path_cached'] = false;
+        self::$__cms_model_properties['is_module_version_cached'] = false;
+        self::$__cms_model_properties['is_user_last_active_extended'] = false;
+        self::$__cms_model_properties['is_navigation_cached'] = false;
+        self::$__cms_model_properties['is_quicklink_cached'] = false;
         self::$__cms_model_properties['is_widget_cached'] = false;
+        self::$__cms_model_properties['is_language_dictionary_cached'] = false;
+        self::$__cms_model_properties['is_group_name_cached'] = false;
+        self::$__cms_model_properties['is_group_id_cached'] = false;
+        self::$__cms_model_properties['is_super_admin_cached'] = false;
+        self::$__cms_model_properties['is_route_cached'] = false;
         self::$__cms_model_properties['is_user_language_cached'] = false;
         self::$__cms_model_properties['is_user_theme_cached'] = false;
-        self::$__cms_model_properties['is_language_dictionary_cached'] = false;
+        self::$__cms_model_properties['is_layout_cached'] = false;
+        self::$__cms_model_properties['is_private_themes_cached'] = false;
+        self::$__cms_model_properties['is_private_modules_cached'] = false;
+    }
+
+    public function cms_get_model_static_properties($key){
+        return self::$__cms_model_properties[$key];
+    }
+
+    public function cms_get_origin_uri_string(){
+        if(isset($_GET['from'])){
+            $origin_uri_string = $_GET['from'];
+        }else{
+            $origin_uri_string = $this->uri->uri_string();
+        }
+        // if origin_uri_sting == '', use default controller instead
+        if($origin_uri_string == ''){
+            $origin_uri_string = $this->cms_get_default_controller();
+        }
+        return $origin_uri_string;
     }
 
     /*
@@ -1072,6 +1104,19 @@ class CMS_Model extends CI_Model
         return $result;
     }
 
+    public function cms_navigation($navigation_name){
+        if (!self::$__cms_model_properties['is_navigation_cached']) {
+            // cache navigations
+            $this->cms_navigations();
+        }
+        foreach(self::$__cms_model_properties['navigation'] as $navigation){
+            if($navigation->navigation_name == $navigation_name){
+                return $navigation;
+            }
+        }
+        return NULL;
+    }
+
     /**
      * @author go frendi
      *
@@ -1256,9 +1301,9 @@ class CMS_Model extends CI_Model
             }
 
             $editing_mode_content = '';
-            if ($this->cms_editing_mode() && $this->cms_allow_navigate('main_widget_management') && $this->cms_have_privilege('edit_main_widget')) {
+            if ($this->cms_editing_mode() && $this->cms_allow_navigate('main_widget_management') && $this->cms_have_privilege('edit_main_widget') && $row->widget_name != 'section_custom_script' && $row->widget_name != 'section_custom_style') {
                 $editing_mode_content = '<div class="__editing_widget_'.str_replace(' ', '_', $row->widget_name).'">'.
-                    '<a style="margin-bottom:2px; margin-top:2px;" class="btn btn-default btn-xs pull-right" href="{{ SITE_URL }}main/manage_widget/index/edit/'.$row->widget_id.'">'.
+                    '<a style="margin-bottom:2px; margin-top:2px;" class="btn btn-default btn-xs pull-right" href="{{ SITE_URL }}main/manage_widget/index/edit/'.$row->widget_id.'?from='.$this->cms_get_origin_uri_string().'">'.
                         '<i class="glyphicon glyphicon-pencil"></i> <strong>'.ucwords(str_replace('_', ' ', $row->widget_name)). '</strong>'.
                     '</a><div style="clear:both"></div>'.
                 '</div>';
@@ -1425,9 +1470,24 @@ class CMS_Model extends CI_Model
                 break;
             }
         }
+        $force_quit = FALSE;
         while ($parent_navigation_id != null && $parent_navigation_id != '' && $parent_navigation_id > 0) {
             foreach ($navigations as $navigation) {
                 if ($navigation->navigation_id == $parent_navigation_id) {
+                    // infinite recursion detected, don't continue
+                    foreach($result as $existing_parent_navigation){
+                        if($navigation->navigation_name == $existing_parent_navigation['navigation_name']){
+                            $force_quit = TRUE;
+                            break;
+                        }
+                    }
+                    if($navigation_name == $navigation->navigation_name){
+                        $force_quit = TRUE;
+                    }
+                    if($force_quit){
+                        break;
+                    }
+                    // no infinite recursion detected, continue
                     $result[] = array(
                             'navigation_id' => $navigation->navigation_id,
                             'navigation_name' => $navigation->navigation_name,
@@ -1438,6 +1498,10 @@ class CMS_Model extends CI_Model
                     $parent_navigation_id = $navigation->parent_id;
                     break;
                 }
+            }
+            // infinite recursion has been detected, just quit
+            if($force_quit){
+                break;
             }
         }
         //result should be in reverse order
@@ -2647,7 +2711,7 @@ class CMS_Model extends CI_Model
                 stripos($description, $keyword) !== false
             ))) {
                 // Subsite should not be allowed to install multisite
-                if(CMS_SUBSITE != '' && $module_name == 'gofrendi.noCMS.multisite'){
+                if(CMS_SUBSITE != '' && ($module_name == 'gofrendi.noCMS.multisite' || $module_name == 'gofrendi.noCMS.nordrassil')){
                     continue;
                 }
                 // if module_name in existing_module_name skip it
@@ -3220,12 +3284,13 @@ class CMS_Model extends CI_Model
 
     private function __cms_cache_layout(){
         if (!self::$__cms_model_properties['is_layout_cached']) {
-            $query = $this->db->select('layout_name, template')
+            $query = $this->db->select('layout_id, layout_name, template')
                 ->from(cms_table_name('main_layout'))
                 ->get();
             foreach ($query->result() as $row) {
                 // save to cache
                 self::$__cms_model_properties['layout'][$row->layout_name] = $row->template;
+                self::$__cms_model_properties['layout_id'][$row->layout_name] = $row->layout_id;
             }
             self::$__cms_model_properties['is_layout_cached'] = true;
         }
@@ -3243,6 +3308,11 @@ class CMS_Model extends CI_Model
     public function cms_get_layout_template($layout){
         $this->__cms_cache_layout();
         return self::$__cms_model_properties['layout'][$layout];
+    }
+
+    public function cms_get_layout_id($layout){
+        $this->__cms_cache_layout();
+        return self::$__cms_model_properties['layout_id'][$layout];
     }
 
     public function cms_layout_exists($layout){
@@ -3977,7 +4047,7 @@ class CMS_Model extends CI_Model
             ->from(cms_table_name('main_privilege'))
             ->where('privilege_name', $privilege_name)
             ->get();
-        if ($query->num_rows() > 0) {
+        if ($query->num_rows() == 0) {
             $this->cms_add_privilege($privilege_name, $title, $authorization_id, $description);
         }
     }

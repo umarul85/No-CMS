@@ -131,6 +131,7 @@ class CMS_Controller extends MX_Controller
         if(method_exists($this->{$this->__cms_base_model_name}, $method)){
             return call_user_func_array(array($this->{$this->__cms_base_model_name}, $method), $args);
         }else{
+            log_message('error', 'Method '.$method.' is not defined in '.$this->__cms_base_model_name);
             return NULL;
         }
     }
@@ -824,6 +825,11 @@ class CMS_Controller extends MX_Controller
             $layout = $this->cms_get_config('site_layout');
         }
 
+        // GET SHOW BENCHMARK
+        $developer_addr = $this->cms_get_config('site_developer_addr');
+        // benchmark only shown if this page is not ajax request, not a widget, configuration site_show_benchmark == TRUE, and the site is accessed from developer's machine
+        $show_benchmark = !$this->input->is_ajax_request() && ! $this->__cms_dynamic_widget && strtoupper(trim($this->cms_get_config('site_show_benchmark'))) == 'TRUE' && ($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1' || $_SERVER['REMOTE_ADDR'] == $developer_addr || preg_match('/'.$developer_addr.'/si', $_SERVER['REMOTE_ADDR']));
+
         // ADJUST THEME
         if (!file_exists(FCPATH.'themes/'.$theme) || !is_dir(FCPATH.'themes/'.$theme)) {
             $theme = 'neutral';
@@ -840,18 +846,25 @@ class CMS_Controller extends MX_Controller
         if ($this->cms_editing_mode()) {
             $editing_mode_content = '<div class="row" style="padding-top:10px; padding-bottom:10px; text-align:right;">';
             if($this->cms_allow_navigate('main_layout_management') && $this->cms_have_privilege('edit_main_layout')){
-                $row_layout = $this->cms_get_record(cms_table_name('main_layout'), 'layout_name', $layout);
-                if($row_layout != NULL){
+                // get row layout
+                $layout_id = $this->cms_get_layout_id($layout);
+                if($layout_id != NULL){
                     // edit layout
-                    $editing_mode_content .= '<a class="btn btn-default" href="{{ SITE_URL }}main/manage_layout/index/edit/'.$row_layout->layout_id.'">'.
-                        '<i class="glyphicon glyphicon-edit"></i> Edit Layout'.
+                    $editing_mode_content .= '<a class="btn btn-default" href="{{ SITE_URL }}main/manage_layout/index/edit/'.$layout_id.'?from='.$this->cms_get_origin_uri_string().'">'.
+                        '<i class="glyphicon glyphicon-edit"></i> Edit Current Layout'.
                     '</a>';
                 }
             }
             if($this->cms_allow_navigate('main_navigation_management') && $this->cms_have_privilege('edit_main_navigation')){
                 // edit page
-                $editing_mode_content .= '<a style="margin-left:10px;" class="btn btn-default" href="{{ SITE_URL }}main/manage_navigation/index/edit/'.$row_navigation->navigation_id.'">'.
-                    '<i class="glyphicon glyphicon-pencil"></i> Edit Page'.
+                $editing_mode_content .= '<a style="margin-left:10px;" class="btn btn-default" href="{{ SITE_URL }}main/manage_navigation/index/edit/'.$row_navigation->navigation_id.'?from='.$this->cms_get_origin_uri_string().'">'.
+                    '<i class="glyphicon glyphicon-pencil"></i> Edit Current Page'.
+                '</a>';
+            }
+            if(isset($_GET['from'])){
+                // Go back
+                $editing_mode_content .= '<a style="margin-left:10px;" class="btn btn-default" href="{{ SITE_URL }}'.$_GET['from'].'">'.
+                    '<i class="glyphicon glyphicon-circle-arrow-left"></i> Back'.
                 '</a>';
             }
             $editing_mode_content .= '</div>';
@@ -967,6 +980,11 @@ class CMS_Controller extends MX_Controller
                 });
             },300000);';
             $asset->add_internal_js($login_code);
+            // normal users should see warning when he/she attempt to access developer console
+            if(!$show_benchmark){
+                $console_warning = 'console.log("%cStop"+"%c\nThis is a browser feature intended for developers. If someone told you to copy-paste anything here, it might be a self-xss attempt", "color:red; font-weight:bold; font-size:200%;", "font-size:150%;font-weight:bold;");';
+                $asset->add_internal_js($console_warning);
+            }
 
             // google analytic
             $analytic_property_id = $this->cms_get_config('cms_google_analytic_property_id');
@@ -1023,36 +1041,12 @@ class CMS_Controller extends MX_Controller
         if ($return_as_string) {
             return $result;
         } else {
-
             // Profiler
-            if(!$this->input->is_ajax_request() && ! $this->__cms_dynamic_widget && strtoupper(trim($this->cms_get_config('site_show_benchmark'))) == 'TRUE'){
-                // get configuration from main site
-                $show_benchmark = FALSE;
-                $developer_addr = '';
-                $t_config = $this->cms_complete_main_site_table_name('main_config', '');
-                $query = $this->db->select('config_name, value')
-                    ->from($t_config)
-                    ->where('config_name', 'site_show_benchmark')
-                    ->or_where('config_name', 'site_developer_addr')
-                    ->get();
-                foreach($query->result() as $row){
-                    if($row->config_name == 'site_show_benchmark'){
-                        $show_benchmark = strtoupper(trim($row->value)) == 'TRUE';
-                    }
-                    if($row->config_name == 'site_developer_addr'){
-                        $developer_addr = $row->value;
-                    }
-                }
-                // set profiler if the site accessed from developer machine and site_show_benchmark is active
-                if($show_benchmark && ($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1' || $_SERVER['REMOTE_ADDR'] == $developer_addr || preg_match('/'.$developer_addr.'/si', $_SERVER['REMOTE_ADDR']))){
-                    $this->output->enable_cms_profiler(TRUE);
-                    $this->output->set_cms_data($data);
-                }
+            if($show_benchmark){
+                $this->output->enable_cms_profiler(TRUE);
+                $this->output->set_cms_data($data);
             }
-
             $this->cms_show_html($result);
-            // load view introduce rendering problem if profiler activated, thus I use echo for now
-            // $this->cms_show_html($result);
         }
     }
 
