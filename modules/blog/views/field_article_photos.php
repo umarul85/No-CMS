@@ -37,14 +37,12 @@
 <!-- This is the real input. If you want to catch the data, please json_decode this input's value -->
 <input id="md_real_field_photos_col" name="md_real_field_photos_col" type="hidden" />
 <?php
-/*
     $asset = new Cms_asset();
     $asset->add_cms_js("nocms/js/jquery-ace/ace/ace.js");
     $asset->add_cms_js("nocms/js/jquery-ace/ace/theme-eclipse.js");
     $asset->add_cms_js("nocms/js/jquery-ace/ace/mode-html.js");
     $asset->add_cms_js("nocms/js/jquery-ace/jquery-ace.min.js");
     echo $asset->compile_js();
-*/
 ?>
 <script type="text/javascript">
 
@@ -147,15 +145,23 @@
         $('#md_table_photos tbody').append(component);
         mutate_input();
 
-        //$('#md_field_photos_col_caption_'+RECORD_INDEX_photos).ckeditor({toolbar:'mini',width:500});
-        /*
         $('#md_field_photos_col_caption_'+RECORD_INDEX_photos).ace({
             theme: "eclipse",
             lang: "html",
             width: "500px",
-            height: "100px"
+            height: "75px"
         });
-        */
+        var decorator = $('#md_field_photos_col_caption_'+RECORD_INDEX_photos).data("ace");
+        if(typeof(decorator) != 'undefined'){
+            var aceInstance = decorator.editor.ace;
+            aceInstance.setFontSize("16px");
+            // also trigger change
+            var component = $('#md_field_photos_col_caption_'+RECORD_INDEX_photos);
+            aceInstance.getSession().on('change', function() {
+                component.trigger('change');
+            });
+        }
+
 
     } // end of ADD ROW FUNCTION
 
@@ -222,7 +228,7 @@
         /////////////////////////////////////////////////////////////////////////////
         // md_field_photos_delete.click (Delete row)
         /////////////////////////////////////////////////////////////////////////////
-        $('.md_field_photos_delete').live('click', function(){
+        $('body').on('click', '.md_field_photos_delete', function(){
             var record_index = $(this).attr('record_index');
             // remove the component
             $('#md_field_photos_tr_'+record_index).remove();
@@ -259,7 +265,7 @@
         /////////////////////////////////////////////////////////////////////////////
         // md_field_photos_col.change (Edit cell)
         /////////////////////////////////////////////////////////////////////////////
-        $('.md_field_photos_col').live('change', function(){
+        $('body').on('change', '.md_field_photos_col', function(){
             var value = $(this).val();
             var old_value = null;
             var column_name = $(this).attr('column_name');

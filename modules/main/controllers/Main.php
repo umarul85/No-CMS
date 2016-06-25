@@ -493,12 +493,14 @@ class Main extends CMS_Controller
         $profile_picture = $row->profile_picture;
 
         //set validation rule
+        $success = TRUE;
         $this->form_validation->set_rules('email', 'E mail', 'required|valid_email');
         $this->form_validation->set_rules('real_name', 'Real Name', 'required');
-        $this->form_validation->set_rules('password', 'Password', 'matches[confirm_password]');
-        $this->form_validation->set_rules('confirm_password', 'Password Confirmation');
+        if(!$this->form_validation->run() || $password != $confirm_password){
+            $success = FALSE;
+        }
 
-        if ($this->form_validation->run()) {
+        if ($success) {
             if(isset($_FILES['profile_picture'])){
                 try{
                     // profile picture
@@ -520,7 +522,7 @@ class Main extends CMS_Controller
                 'theme' => $theme,
                 'language' => $language,
                 'sex' => $sex,
-                'birthdate' => $birthdate,
+                'birthdate' => trim($birthdate) == ''? NULL :$birthdate,
                 'self_description' => $self_description,
                 'profile_picture' => $profile_picture,
             );
@@ -1067,7 +1069,7 @@ class Main extends CMS_Controller
                     color: transparent !important;
                 }
             </style>
-            <div id="_top_navigation" class="navbar '.$navbar_class.'" role="navigation">
+            <div id="_top_navigation" class="navbar '.$navbar_class.'" role="navigation" style="margin-bottom:0;">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

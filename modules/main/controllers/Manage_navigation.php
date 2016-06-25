@@ -198,6 +198,7 @@ class Manage_navigation extends CMS_Predefined_Callback_CRUD_Controller {
         $crud->field_type('index', 'hidden');
 
         $crud->set_field_one_third_width(array('active', 'add_to_quicklink', 'hidden', 'only_content', 'is_static'));
+        $crud->set_field_half_width(array('title', 'bootstrap_glyph', 'authorization_id', 'group_navigation', 'page_title', 'page_keyword', 'default_theme', 'default_layout'));
 
 
         if (!array_key_exists('search_text', $this->input->post()) || $this->input->post('search_text') == '') {
@@ -437,11 +438,11 @@ class Manage_navigation extends CMS_Predefined_Callback_CRUD_Controller {
         }
         $html = '<div class="pretty-radio-buttons">
             <label>
-                <input id="field-add_to_quicklink-true" class="radio-uniform form-control" type="radio" name="quicklink" value="1" '.$active_checked.'>
+                <input id="field-add_to_quicklink-true" class="radio-uniform" type="radio" name="quicklink" value="1" '.$active_checked.'>
                 active
             </label>
             <label>
-                <input id="field-add_to_quicklink-false" class="radio-uniform form-control" type="radio" name="quicklink" value="0" '.$inactive_checked.'>
+                <input id="field-add_to_quicklink-false" class="radio-uniform" type="radio" name="quicklink" value="0" '.$inactive_checked.'>
                 inactive
             </label>
         </div>';

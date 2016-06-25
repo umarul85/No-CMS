@@ -220,6 +220,8 @@ class Manage_article extends CMS_CRUD_Controller {
             $crud->field_type('publish_date', 'datetime');
         }
 
+        $crud->set_field_half_width(array('featured', 'allow_comment'));
+
 
 
         ////////////////////////////////////////////////////////////////////////
@@ -417,7 +419,7 @@ class Manage_article extends CMS_CRUD_Controller {
             $data['insert'][$i]['data']['url'] = $file_name;
 
             $thumbnail_name = 'thumb_'.$file_name;
-            $this->image_moo->load($upload_path.$file_name)->resize(800,75)->save($upload_path.$thumbnail_name,true);
+            $this->cms_resize_image($upload_path.$file_name, 800, 75, $upload_path.$thumbnail_name);
         }
         // save
         $this->_save_one_to_many(

@@ -14,6 +14,38 @@ class CMS_Model extends CI_Model
     public $PRIV_AUTHORIZED = PRIV_AUTHORIZED;
     public $PRIV_EXCLUSIVE_AUTHORIZED = PRIV_EXCLUSIVE_AUTHORIZED;
 
+    // Types
+    protected $TYPE_INT_UNSIGNED_AUTO_INCREMENT = array('type' => 'INT', 'constraint' => 20, 'unsigned' => true, 'auto_increment' => true);
+    protected $TYPE_INT_UNSIGNED_NOTNULL = array('type' => 'INT', 'constraint' => 20, 'unsigned' => true, 'null' => false);
+    protected $TYPE_INT_SIGNED_NOTNULL = array('type' => 'INT', 'constraint' => 20, 'null' => false);
+    protected $TYPE_INT_UNSIGNED_NULL = array('type' => 'INT', 'constraint' => 20, 'unsigned' => true, 'null' => true);
+    protected $TYPE_INT_SIGNED_NULL = array('type' => 'INT', 'constraint' => 20, 'null' => true);
+    protected $TYPE_DATETIME_NOTNULL = array('type' => 'TIMESTAMP', 'null' => false);
+    protected $TYPE_DATE_NOTNULL = array('type' => 'DATE', 'null' => false);
+    protected $TYPE_DATETIME_NULL = array('type' => 'TIMESTAMP', 'null' => true);
+    protected $TYPE_DATE_NULL = array('type' => 'DATE', 'null' => true);
+    protected $TYPE_FLOAT_NOTNULL = array('type' => 'FLOAT', 'null' => false);
+    protected $TYPE_DOUBLE_NOTNULL = array('type' => 'DOUBLE', 'null' => false);
+    protected $TYPE_FLOAT_NULL = array('type' => 'FLOAT', 'null' => true);
+    protected $TYPE_DOUBLE_NULL = array('type' => 'DOUBLE', 'null' => true);
+    protected $TYPE_TEXT = array('type' => 'TEXT', 'null' => true);
+    protected $TYPE_VARCHAR_5_NOTNULL = array('type' => 'VARCHAR', 'constraint' => 5, 'null' => false);
+    protected $TYPE_VARCHAR_10_NOTNULL = array('type' => 'VARCHAR', 'constraint' => 10, 'null' => false);
+    protected $TYPE_VARCHAR_20_NOTNULL = array('type' => 'VARCHAR', 'constraint' => 20, 'null' => false);
+    protected $TYPE_VARCHAR_50_NOTNULL = array('type' => 'VARCHAR', 'constraint' => 50, 'null' => false);
+    protected $TYPE_VARCHAR_100_NOTNULL = array('type' => 'VARCHAR', 'constraint' => 100, 'null' => false);
+    protected $TYPE_VARCHAR_150_NOTNULL = array('type' => 'VARCHAR', 'constraint' => 150, 'null' => false);
+    protected $TYPE_VARCHAR_200_NOTNULL = array('type' => 'VARCHAR', 'constraint' => 200, 'null' => false);
+    protected $TYPE_VARCHAR_250_NOTNULL = array('type' => 'VARCHAR', 'constraint' => 250, 'null' => false);
+    protected $TYPE_VARCHAR_5_NULL = array('type' => 'VARCHAR', 'constraint' => 5, 'null' => true);
+    protected $TYPE_VARCHAR_10_NULL = array('type' => 'VARCHAR', 'constraint' => 10, 'null' => true);
+    protected $TYPE_VARCHAR_20_NULL = array('type' => 'VARCHAR', 'constraint' => 20, 'null' => true);
+    protected $TYPE_VARCHAR_50_NULL = array('type' => 'VARCHAR', 'constraint' => 50, 'null' => true);
+    protected $TYPE_VARCHAR_100_NULL = array('type' => 'VARCHAR', 'constraint' => 100, 'null' => true);
+    protected $TYPE_VARCHAR_150_NULL = array('type' => 'VARCHAR', 'constraint' => 150, 'null' => true);
+    protected $TYPE_VARCHAR_200_NULL = array('type' => 'VARCHAR', 'constraint' => 200, 'null' => true);
+    protected $TYPE_VARCHAR_250_NULL = array('type' => 'VARCHAR', 'constraint' => 250, 'null' => true);
+
     public $__controller_module_path = null;
     protected static $__cms_model_properties;
 
@@ -770,7 +802,18 @@ class CMS_Model extends CI_Model
         return $is_conn;
     }
 
-    public function cms_get_profile_picture($user_id){
+    private function __cms_get_new_pp_name($pp, $resolution){
+        $pp_part = explode('/', $pp);
+        $file_name = $pp_part[count($pp_part)-1];
+        $new_pp_path = $pp.'_dir';
+        // make pp path
+        if(!file_exists($new_pp_path)){
+            mkdir($new_pp_path);
+        }
+        $new_pp = $new_pp_path.'/'.$resolution.'_'.$file_name;
+        return $new_pp;
+    }
+    public function cms_get_profile_picture($user_id, $resolution = 256){
         if (array_key_exists($user_id, self::$__cms_model_properties['profile_pictures'])) {
             return self::$__cms_model_properties['profile_pictures'][$user_id];
         }
@@ -784,18 +827,31 @@ class CMS_Model extends CI_Model
         // determine pp
         $pp = '';
         if($user_record === null){
-            $pp = $real_base_url.'assets/nocms/images/default-profile-picture.png';
+            $pp = 'assets/nocms/images/default-profile-picture.png';
+            $new_pp = $this->__cms_get_new_pp_name($pp, $resolution);
+            if(!file_exists(FCPATH.$new_pp)){
+                $this->cms_resize_image(FCPATH.$pp, $resolution, $resolution, FCPATH.$new_pp);
+            }
+            $pp = $real_base_url.$new_pp;
         }else{
             $pp = $user_record->profile_picture;
             if($pp == NULL && $this->cms_is_connect('www.gravatar.com')){
                 // take from gravatar
-                $pp = 'http://www.gravatar.com/avatar/'.md5($user_record->email).'?s=256&r=pg&d=identicon';
-            }else if($pp == NULL){
-                // take from default profile picture
-                $pp = $real_base_url.'assets/nocms/images/default-profile-picture.png';
+                $pp = 'http://www.gravatar.com/avatar/'.md5($user_record->email).'?s='.$resolution.'&r=pg&d=identicon';
             }else{
-                // take from table
-                $pp = $real_base_url.'assets/nocms/images/profile_picture/'.$user_record->profile_picture;
+                if($pp != NULL){
+                    // take from table
+                    $pp = 'assets/nocms/images/profile_picture/'.$user_record->profile_picture;
+                }
+                if($pp == NULL || !file_exists(FCPATH.$pp)){
+                    // take from default profile picture
+                    $pp = 'assets/nocms/images/default-profile-picture.png';
+                }
+                $new_pp = $this->__cms_get_new_pp_name($pp, $resolution);
+                if(!file_exists(FCPATH.$new_pp)){
+                    $this->cms_resize_image(FCPATH.$pp, $resolution, $resolution, FCPATH.$new_pp);
+                }
+                $pp = $real_base_url.$new_pp;
             }
         }
         // cache profile picture
@@ -1242,13 +1298,6 @@ class CMS_Model extends CI_Model
         $login = $user_name ? '(1=1)' : '(1=2)';
         $super_user = $this->cms_user_is_super_admin() ? '(1=1)' : '(1=2)';
 
-        /*
-        $slug_where = isset($slug)?
-            "(((slug LIKE '".addslashes($slug)."') OR (slug LIKE '%".addslashes($slug)."%')) AND active=1)" :
-            "1=1";
-        $widget_name_where = isset($widget_name)? "widget_name LIKE '".addslashes($widget_name)."'" : "1=1";
-        */
-
         if (!self::$__cms_model_properties['is_widget_cached']) {
             $SQL = 'SELECT
                         widget_id, widget_name, is_static, title,
@@ -1302,7 +1351,7 @@ class CMS_Model extends CI_Model
 
             $editing_mode_content = '';
             if ($this->cms_editing_mode() && $this->cms_allow_navigate('main_widget_management') && $this->cms_have_privilege('edit_main_widget') && $row->widget_name != 'section_custom_script' && $row->widget_name != 'section_custom_style') {
-                $editing_mode_content = '<div class="__editing_widget_'.str_replace(' ', '_', $row->widget_name).'">'.
+                $editing_mode_content = '<div class="__editing_widget __editing_widget_'.str_replace(' ', '_', $row->widget_name).'">'.
                     '<a style="margin-bottom:2px; margin-top:2px;" class="btn btn-default btn-xs pull-right" href="{{ SITE_URL }}main/manage_widget/index/edit/'.$row->widget_id.'?from='.$this->cms_get_origin_uri_string().'">'.
                         '<i class="glyphicon glyphicon-pencil"></i> <strong>'.ucwords(str_replace('_', ' ', $row->widget_name)). '</strong>'.
                     '</a><div style="clear:both"></div>'.
@@ -1356,24 +1405,26 @@ class CMS_Model extends CI_Model
                     $url_segment = explode('/', $url);
                     $module_path = $url_segment[0];
                     $response = '';
-                    // ensure self::$__cms_model_properties['module_name'] exists. This variable's keys are all available module path
-                    $this->cms_module_name();
-                    if ($module_path == 'main' || (array_key_exists($module_path, self::$__cms_model_properties['module_name']) && self::$__cms_model_properties['module_name'][$module_path] != '')) {
-                        $_REQUEST['__cms_dynamic_widget'] = 'TRUE';
-                        $_REQUEST['__cms_dynamic_widget_module'] = $module_path;
-                        $url = trim($url, '/');
-                        $response = @Modules::run($url);
-                        if (strlen($response) == 0) {
-                            $response = @Modules::run($url.'/index');
+                    if($url !== NULL && trim($url) != ''){
+                        // ensure self::$__cms_model_properties['module_name'] exists. This variable's keys are all available module path
+                        $this->cms_module_name();
+                        if ($module_path == 'main' || (array_key_exists($module_path, self::$__cms_model_properties['module_name']) && self::$__cms_model_properties['module_name'][$module_path] != '')) {
+                            $_REQUEST['__cms_dynamic_widget'] = 'TRUE';
+                            $_REQUEST['__cms_dynamic_widget_module'] = $module_path;
+                            $url = trim($url, '/');
+                            $response = @Modules::run($url);
+                            if (strlen($response) == 0) {
+                                $response = @Modules::run($url.'/index');
+                            }
+                            unset($_REQUEST['__cms_dynamic_widget']);
+                            unset($_REQUEST['__cms_dynamic_widget_module']);
                         }
-                        unset($_REQUEST['__cms_dynamic_widget']);
-                        unset($_REQUEST['__cms_dynamic_widget_module']);
-                    }
-                    // fallback, Modules::run failed, use AJAX instead
-                    if (strlen($response) == 0) {
-                        $response = '<script type="text/javascript">';
-                        $response .= '$(document).ready(function(){$("#__cms_widget_'.$row->widget_id.'").load("'.site_url($url).'?__cms_dynamic_widget=TRUE");});';
-                        $response .= '</script>';
+                        // fallback, Modules::run failed, use AJAX instead
+                        if (strlen($response) == 0) {
+                            $response = '<script type="text/javascript">';
+                            $response .= '$(document).ready(function(){$("#__cms_widget_'.$row->widget_id.'").load("'.site_url($url).'?__cms_dynamic_widget=TRUE");});';
+                            $response .= '</script>';
+                        }
                     }
                     // add editing mode content
                     if(trim($response) != ''){
@@ -3110,10 +3161,12 @@ class CMS_Model extends CI_Model
         return $success;
     }
 
-    public function cms_resize_image($file_name, $nWidth, $nHeight)
+    public function cms_resize_image($file_name, $nWidth, $nHeight, $new_file_name = NULL)
     {
         // original code: http://stackoverflow.com/questions/16977853/resize-images-with-transparency-in-php
-
+        if($new_file_name === NULL){
+            $new_file_name = $file_name;
+        }
 
         // read image
         $im = @imagecreatefrompng($file_name);
@@ -3142,10 +3195,10 @@ class CMS_Model extends CI_Model
                 $srcWidth, $srcHeight);
 
             // write new image
-            imagepng($newImg, $file_name);
+            imagepng($newImg, $new_file_name);
         } else {
             $this->load->library('image_moo');
-            $this->image_moo->load($file_name)->resize($nWidth, $nHeight)->save($file_name, true);
+            $this->image_moo->load($file_name)->resize($nWidth, $nHeight)->save($new_file_name, true);
         }
     }
 
@@ -4483,6 +4536,57 @@ class CMS_Model extends CI_Model
             $query = preg_replace('/\{\{ complete_table_name:(.*) \}\}/si', $table_prefix == '' ? '$1' : $table_prefix.'_'.'$1', $query);
             $query = preg_replace('/\{\{ module_prefix \}\}/si', $module_prefix, $query);
             $this->db->query($query);
+        }
+    }
+
+    public function cms_adjust_tables($tables, $table_prefix = ''){
+        $this->load->dbforge();
+        // default fields
+        $default_fields = array(
+            '_created_at' => array('type' => 'TIMESTAMP', 'null' => true),
+            '_updated_at' => array('type' => 'TIMESTAMP', 'null' => true),
+            '_created_by' => array('type' => 'INT', 'constraint' => 20, 'null' => true),
+            '_updated_by' => array('type' => 'INT', 'constraint' => 20, 'null' => true),
+        );
+        // build tables
+        foreach ($tables as $table_name => $data) {
+            $table_name = $table_prefix . $table_name;
+            $table_exists = $this->db->table_exists($table_name);
+            $key = array_key_exists('key', $data)? $data['key'] : 'id';
+            $fields = array_key_exists('fields', $data)? $data['fields'] : array();
+            foreach($fields as $field_name=>$type){
+                if(is_string($type) && property_exists($this, $type)){
+                    $fields[$field_name] = $this->{$type};
+                }
+            }
+            // add default fields
+            foreach($default_fields as $field_name => $field_data){
+                if(!array_key_exists($field_name, $fields)){
+                    $fields[$field_name] = $field_data;
+                }
+            }
+            // create table if not exists
+            if(!$table_exists){
+                $this->dbforge->add_field($fields);
+                $this->dbforge->add_key($key, true);
+                $this->dbforge->create_table($table_name);
+            }else{
+                $field_list = $this->db->list_fields($table_name);
+                // missing fields and modified field
+                $modified_fields = array();
+                $missing_fields = array();
+                foreach($fields as $key=>$value){
+                    if(!in_array($key, $field_list)){
+                        $missing_fields[$key] = $value;
+                    }else{
+                        $modified_fields[$key] = $value;
+                    }
+                }
+                // add missing fields
+                $this->dbforge->add_column($table_name, $missing_fields);
+                // modify fields
+                $this->dbforge->modify_column($table_name, $modified_fields);
+            }
         }
     }
 

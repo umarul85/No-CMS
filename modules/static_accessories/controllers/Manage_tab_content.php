@@ -9,7 +9,7 @@ class Manage_tab_content extends CMS_CRUD_Controller {
 
     protected $URL_MAP = array();
     protected $TABLE_NAME = 'tab_content';
-    protected $COLUMN_NAMES = array('caption', 'content');
+    protected $COLUMN_NAMES = array('caption', 'content', 'slug');
     protected $PRIMARY_KEY = 'tab_id';
     protected $UNSET_JQUERY = TRUE;
     protected $UNSET_READ = TRUE;
@@ -44,6 +44,7 @@ class Manage_tab_content extends CMS_CRUD_Controller {
         // caption of each columns
         $crud->display_as('caption','Caption');
         $crud->display_as('content','Content');
+        $crud->display_as('slug','Slug');
 
         ////////////////////////////////////////////////////////////////////////
         // This function will automatically detect every methods in this controller and link it to corresponding column
@@ -108,8 +109,7 @@ class Manage_tab_content extends CMS_CRUD_Controller {
         // eg:
         //      $crud->field_type( $field_name , $field_type, $value  );
         ////////////////////////////////////////////////////////////////////////
-
-
+        $crud->unset_texteditor('slug');
 
 
         ////////////////////////////////////////////////////////////////////////
@@ -171,7 +171,8 @@ class Manage_tab_content extends CMS_CRUD_Controller {
 
 
     public function _after_insert_or_update($post_array, $primary_key){
-
+        $this->load->model($this->cms_module_path().'/tab_model');
+        $this->tab_model->adjust_widget();
         return TRUE;
     }
 

@@ -83,8 +83,17 @@
         return actions;
     }
 
-    $(".save-on-click").live('click', function(event){
-        $("#form-button-save").trigger('click');
+    // submit the form, save the next url, and when the ajax is complete, do redirection
+    var _next_url = '';
+    $('body').on('click', '.save-on-click', function(event){
+        $('#crudForm').trigger('submit');
+        _next_url = $(this).attr('href');
+        event.preventDefault();
     });
+    $(document).ajaxComplete(function(event){
+        if(_next_url != ''){
+            window.location = _next_url;
+        }
+    });;
 
 </script>

@@ -49,20 +49,25 @@
         min-height: 75px!important;
         margin-top: 10px!important;
     }
-    .photo_thumbnail{
+    .photo_thumbnail, .photo_more{
         width : 150px;
         height : 75px;
+        margin:5px;
+        display:inline-block;
+    }
+    .photo_thumbnail{
         background-color : black;
         background-repeat : no-repeat;
         background-position:center;
-        margin:5px;
-        display:inline-block;
     }
     .small_photo{
         text-align:center;
     }
     .photo_caption{
         display:none;
+    }
+    .photo_link{
+        display:inline-block;
     }
 </style>
 
@@ -72,6 +77,26 @@
     <?php echo $submenu_screen; ?>
 </div>
 <?php } ?>
+<!-- Modal -->
+<div class="modal fade col-xs-12" id="photo-modal" role="dialog">
+    <div class="modal-dialog col-xs-12" style="width:100%!important;">
+        <!-- Modal content-->
+        <div class="modal-content" style="width:100%!important;">
+            <div class="modal-header">
+                <button style="padding:5px;" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="photo-modal-title" class="modal-title" style="display:inline-block;">Image</h4>
+                <button id="btn-prev-photo" class="btn btn-default" style="padding:5px">&lt;</button>
+                <button id="btn-next-photo" class="btn btn-default" style="padding:5px">&gt;</button>
+                <div style="clear:both"></div>
+            </div>
+            <div id="photo-modal-body" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <form id="search-form" class="form-inline col-xs-12" role="form" style="margin-bottom:20px;">
     <div class="form-group">
@@ -80,7 +105,7 @@
             <?php
                 foreach($categories as $key=>$value){
                     $selected = '';
-                    if($key == $chosen_category){
+                    if($key == urldecode($chosen_category)){
                         $selected = 'selected = "selected"';
                     }
                     echo '<option value="'.$key.'" '.$selected.'>'.$value.'</option>';
@@ -100,78 +125,63 @@
 </form>
 
 <?php if($allow_navigate_backend){?>
+<!-- Quick Write Form -->
 <div class="col-xs-12" style="margin-bottom:20px;">
     <h4>{{ language: Quick Write }}</h4>
-    <form method="post" action="<?php echo $backend_url; ?>/add/">
-        <input id="new_article_title" name="title" class="col-xs-12 form-control" placeholder="{{ language:Title }}" style="margin-bottom:10px;" />
-        <textarea id="new_article_content" name="content" class="col-xs-12 form-control" placeholder="{{ language:Content }}" style="resize:none;"></textarea>
-        <div class="form-inline pull-right" style="margin-top:20px;">
-            <div class="form-group">
-                <?php if($can_publish){ ?>
-                    <select id="new_article_status" name="status" class="form-control">
-                        <option value="published" selected>Published</option>
-                        <option value="draft">Draft</option>
-                    </select>
-                <?php } ?>
+    <form  method="post" action="<?php echo $backend_url; ?>/add/">
+        <div class="col-xs-12" style="margin-bottom:10px;">
+            <input id="new_article_title" name="title" class="form-control" placeholder="{{ language:Title }}" />
+        </div>
+        <div class="col-xs-12" style="margin-bottom:10px;">
+            <textarea id="new_article_content" name="content" class="form-control" placeholder="{{ language:Content }}" style="resize:none;"></textarea>
+        </div>
+
+        <?php if($can_publish){ ?>
+            <div class="col-xs-12 col-md-6" style="margin-bottom:10px;">
+                <select id="new_article_status" name="status" class="form-control">
+                    <option value="published" selected>Published</option>
+                    <option value="draft">Draft</option>
+                </select>
             </div>
-            <div class="form-group">&nbsp;
-                <button id="new_article_save" class="btn btn-primary">
-                    <i class="glyphicon glyphicon-share-alt"></i> {{ language:Save }}
-                </button>
-            </div>
-            <div class="form-group">&nbsp;
-                <button id="new_article_edit" class="btn btn-primary">
-                    <i class="glyphicon glyphicon-pencil"></i> {{ language:Switch Full Mode }}
-                </button>
-            </div>
+        <?php } ?>
+        <div class="col-xs-12 col-sm-6 col-md-3" style="margin-bottom:10px;">
+            <button id="new_article_save" class="col-xs-12 btn btn-primary">
+                <i class="glyphicon glyphicon-share-alt"></i> {{ language:Save }}
+            </button>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3" style="margin-bottom:10px;">
+            <button id="new_article_edit" class="col-xs-12 btn btn-primary">
+                <i class="glyphicon glyphicon-pencil"></i> {{ language:Detail Edit }}
+            </button>
         </div>
     </form>
 </div>
 <?php } ?>
-
+<!-- Record contents -->
 <div id="record_content" class="col-xs-12">
     <?php
         if($first_data != NULL){
+            // A lot of articles
             echo $first_data;
         }else if(isset($article) && $article !== FALSE){
+            // Single Article
             echo '<h2>'.$article['title'].'</h2>';
             echo '('.$article['author'].', '.$article['date'].')'.br();
 
             if(count($article['photos'])>0){
                 // photos
                 echo '<div id="small_photo_'.$article['id'].'" class="small_photo well">';
+                $index = 0;
                 foreach($article['photos'] as $photo){
-                    echo '<a class="photo_'.$article['id'].'" photo_id="'.$photo['id'].'" href="'.base_url('modules/{{ module_path }}/assets/uploads/'.$photo['url']).'">';
+                    $is_first = $index == 0 ? 1 : 0;
+                    $is_last = $index == (count($article['photos'])-1) ? 1 : 0;
+                    echo '<a data-toggle="modal" data-target="#photo-modal" class="photo_link" article_id="'.$article['id'].'" index="'.$index.'" photo_id="'.$photo['id'].'" img="'.base_url('modules/{{ module_path }}/assets/uploads/'.$photo['url']).'" is_first="'.$is_first.'" is_last="'.$is_last.'" href="#">';
                     echo '<div class="photo_thumbnail" style="background-image:url('.base_url('modules/{{ module_path }}/assets/uploads/thumb_'.$photo['url']).');"></div>';
                     echo '<div id="photo_caption_'.$photo['id'].'" class="photo_caption">'.$photo['caption'].'</div>';
                     echo '</a>';
+                    $index++;
                 }
-                echo '<div id="big_photo_'.$article['id'].'" class="row"></div>';
                 echo '</div>';
-                echo '<script type="text/javascript">
-                    $(".photo_'.$article['id'].'").click(function(event){
-                        LOADING = true;
-                        var photo_caption = $("#photo_caption_"+$(this).attr("photo_id")).html();
-                        $("#big_photo_'.$article['id'].'").hide();
-                        $("#big_photo_'.$article['id'].'").html(
-                            "<div class=\"col-md-12\" style=\"text-align:right; margin-bottom:10px;\"><a id=\"close_big_photo_'.$article['id'].'\" class=\"btn btn-danger\" href=\"#\"><i class=\"glyphicon glyphicon-remove\"></i></a></div>"+
-                            "<div class=\"col-md-12 lead\" style=\"text-align:left;\">" + photo_caption + "</div>"+
-                            "<img class=\"col-md-12\" src=\"" + $(this).attr("href") + "\" />"
-                        );
-                        $("#big_photo_'.$article['id'].'").fadeIn();
-                        $("html, body").animate({
-                            scrollTop: $("#small_photo_'.$article['id'].'").offset().top - 60
-                        }, 1000, "swing", function(){LOADING = false});
-                        $(".photo_'.$article['id'].'").css("opacity", 1);
-                        $(this).css("opacity", 0.3);
-                        event.preventDefault();
-                    });
-                    $("#close_big_photo_'.$article['id'].'").live("click", function(event){
-                        event.preventDefault();
-                        $(".photo_'.$article['id'].'").css("opacity", 1);
-                        $("#big_photo_'.$article['id'].'").fadeOut();
-                    });
-                </script>';
             }
 
 
@@ -207,7 +217,7 @@
                     }else{
                         $url = $module_url.'/index?category='.$category['name'];
                     }
-                    echo '<a href="'.site_url($url).'"><span class="label label-primary">'.$category['name'].'</span></a>&nbsp;';
+                    echo '<a href="'.site_url($url).'"><span class="label label-primary">'.$category['name'].'</span></a> ';
                 }
                 // also get related article
                 if(count($article['related_article'])>0){
@@ -252,7 +262,7 @@
             foreach($article['comments'] as $comment){
                 echo '<div class="comment-item well" style="margin-left:'.($comment['level']*20).'px;">';
                 echo '<div class="comment-header">';
-                echo '<img style="margin-right:20px; margin-bottom:5px; margin-top:5px; float:left;" src="'.$comment['gravatar_url'].'" />';
+                echo '<img style="margin-right:20px; margin-bottom:5px; margin-top:5px; float:left; width:50px;" src="'.$comment['gravatar_url'].'" />';
                 echo '<span stylel="float:left;">';
                 echo $comment['name'].', '.$comment['date'].br();
                 if($comment['website'] != ''){
@@ -461,7 +471,7 @@
         });
 
         // delete click
-        $('.delete_record').live('click',function(){
+        $('body').on('click', '.delete_record',function(){
             var url = $(this).attr('href');
             var primary_key = $(this).attr('primary_key');
             if (confirm("Do you really want to delete?")) {
@@ -545,7 +555,46 @@
             event.preventDefault();
         });
 
-
+        // big photo
+        var _PREV_PHOTO_COMPONENT = null;
+        var _NEXT_PHOTO_COMPONENT = null;
+        function _load_photo_by_link($component){
+            var img = $component.attr('img');
+            var photo_id = $component.attr('photo_id');
+            var caption = $('#photo_caption_'+photo_id).html();
+            var photo_index = parseInt($component.attr('index'));
+            var title = '{{ language: Image }} #' + (photo_index+1);
+            var article_id = $component.attr('article_id');
+            var is_first = $component.attr('is_first') == '1';
+            var is_last = $component.attr('is_last') == '1';
+            // set next photo component and prev photo component
+            if(is_last){
+                _NEXT_PHOTO_COMPONENT = $('.photo_link[article_id='+article_id+'][is_first=1]');
+            }else{
+                _NEXT_PHOTO_COMPONENT = $('.photo_link[article_id='+article_id+'][index='+(photo_index+1)+']');
+            }
+            if(is_first){
+                _PREV_PHOTO_COMPONENT = $('.photo_link[article_id='+article_id+'][is_last=1]');
+            }else{
+                _PREV_PHOTO_COMPONENT = $('.photo_link[article_id='+article_id+'][index='+(photo_index-1)+']');
+            }
+            $('#photo-modal-title').html(title);
+            $('#photo-modal-body').html('<div style="text-align:center">'+
+                '<img style="max-width:100%;" src="'+img+'" />'+
+                '</div>'+
+                '<div style="margin-top:20px;" class="col-xs-12">'+caption+'</div><div style="clear:both;"></div>');
+        }
+        // photo_link.click
+        $('body').on('click', '.photo_link', function(event){
+            _load_photo_by_link($(this));
+        });
+        // prev and next
+        $('#btn-prev-photo').click(function(){
+            _load_photo_by_link(_PREV_PHOTO_COMPONENT);
+        });
+        $('#btn-next-photo').click(function(){
+            _load_photo_by_link(_NEXT_PHOTO_COMPONENT);
+        });
     });
 
 </script>

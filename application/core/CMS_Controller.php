@@ -51,7 +51,7 @@ class CMS_Controller extends MX_Controller
             include(APPPATH.'config/main/database.php');
             $this->load->database($db['default']);
         }else{
-            $this->load->database();
+            @$this->load->database();
         }
 
         // load helpers and libraries
@@ -66,7 +66,7 @@ class CMS_Controller extends MX_Controller
         $this->load->library('unit_test');
         $this->form_validation->CI = &$this;
 
-        $this->JQUERY_PATH = base_url('assets/grocery_crud/js/jquery-1.11.1.min.js');
+        $this->JQUERY_PATH = base_url('assets/grocery_crud/js/'.JQUERY_FILE_NAME);
 
         $module_path = $this->cms_module_path();
         $this->load->model($this->__cms_base_model_name);
@@ -213,7 +213,7 @@ class CMS_Controller extends MX_Controller
                 __adjust_component(".thumbnail_submenu div.caption");
                 __adjust_component(".thumbnail_submenu");
             }
-            $(window).load(function(){
+            $(window).on(\'load\', function(){
                 __adjust_thumbnail_submenu();
                 // resize
                 $(window).resize(function(){
@@ -271,7 +271,7 @@ class CMS_Controller extends MX_Controller
                 $badge_id = '__cms_notif_submenu_screen_'.$navigation_id;
                 $badge = '&nbsp;<span id="'.$badge_id.'" class="badge"></span>';
                 $badge .= '<script type="text/javascript">
-                        $(window).load(function(){
+                        $(window).on(\'load\', function(){
                             setInterval(function(){
                                 $.ajax({
                                     dataType:"json",
@@ -855,7 +855,7 @@ class CMS_Controller extends MX_Controller
                     '</a>';
                 }
             }
-            if($this->cms_allow_navigate('main_navigation_management') && $this->cms_have_privilege('edit_main_navigation')){
+            if($row_navigation != NULL && $this->cms_allow_navigate('main_navigation_management') && $this->cms_have_privilege('edit_main_navigation')){
                 // edit page
                 $editing_mode_content .= '<a style="margin-left:10px;" class="btn btn-default" href="{{ SITE_URL }}main/manage_navigation/index/edit/'.$row_navigation->navigation_id.'?from='.$this->cms_get_origin_uri_string().'">'.
                     '<i class="glyphicon glyphicon-pencil"></i> Edit Current Page'.
