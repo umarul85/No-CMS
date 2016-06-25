@@ -2,7 +2,7 @@
 
 $contents = '';
 foreach($result as $record){
-    $contents .= '<div id="record_'.$record->victim_ic.'" class="record_container panel panel-default">';
+    $contents .= '<div id="record_'.$record->victim_id.'" class="record_container panel panel-default">';
     $contents .= '<div class="panel-body">';
 
     // TABLE
@@ -19,6 +19,11 @@ foreach($result as $record){
     $contents .= '<tr>';
     $contents .= '<th>Victim Name</th>';
     $contents .= '<td>' . $record->victim_name . '</td>';
+    $contents .= '</tr>';
+    //VICTIM IC
+    $contents .= '<tr>';
+    $contents .= '<th>Victim Ic</th>';
+    $contents .= '<td>' . $record->victim_ic . '</td>';
     $contents .= '</tr>';
     //GENDER
     $contents .= '<tr>';
@@ -87,12 +92,12 @@ foreach($result as $record){
 
         // EDIT BUTTON
         if($have_edit_privilege){
-            $contents .= '<a href="'.$backend_url.'/edit/'.$record->victim_ic.'" class="btn edit_record btn-default" primary_key = "'.$record->victim_ic.'"><i class="glyphicon glyphicon-pencil"></i> Edit</a>';
+            $contents .= '<a href="'.$backend_url.'/edit/'.$record->victim_id.'" class="btn edit_record btn-default" primary_key = "'.$record->victim_id.'"><i class="glyphicon glyphicon-pencil"></i> Edit</a>';
             $contents .= '&nbsp;';
         }
         // DELETE BUTTON
         if($have_delete_privilege){
-            $contents .= '<a href="'.$backend_url.'/delete/'.$record->victim_ic.'" class="btn delete_record btn-danger" primary_key = "'.$record->victim_ic.'"><i class="glyphicon glyphicon-remove"></i> Delete</a>';
+            $contents .= '<a href="'.$backend_url.'/delete/'.$record->victim_id.'" class="btn delete_record btn-danger" primary_key = "'.$record->victim_id.'"><i class="glyphicon glyphicon-remove"></i> Delete</a>';
         }
 
         $contents .= '</div>';

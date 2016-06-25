@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3643c169-db9b-4d1d-9864-e421d3f4be97" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/logs/1c96b83db4287eea48f1cafe4759968c" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/logs/bd4d2883fe375d3ed06ab37e9c50983a" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/No-CMS.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/db/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/images/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/images/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/languages/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/navigation_icon/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/navigation_icon/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/scripts/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/scripts/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/styles/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/styles/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/uploads/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/assets/uploads/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/config/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/config/module_config.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/controllers/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/controllers/.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/controllers/Info.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/description.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/example/controllers/Manage_citizen.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/example/controllers/Manage_city_commodity.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/example/models/Grocerycrud_citizen_model.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/example/models/Grocerycrud_city_commodity_model.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/example/views/Manage_citizen_view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/example/views/Manage_city_commodity_view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_person_detail.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center_person_detail.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_inventory_transfer.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_ipta_ipts_list.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_person_detail.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Grocerycrud_center_person_detail_model.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Grocerycrud_inventory_transfer_model.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Grocerycrud_ipta_ipts_list_model.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Grocerycrud_person_detail_model.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Person_detail_model.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_person_detail_partial_view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_person_detail_view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Manage_center_person_detail_view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Manage_inventory_transfer_view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Manage_ipta_ipts_list_view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Manage_person_detail_view.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/field_center_person2.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/helpers/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/helpers/function_helper.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/libraries/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/models/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/nordrassil_seed.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/views/.htaccess" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/views/_index.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/example/controllers/Info.php" afterPath="$PROJECT_DIR$/modules/example/controllers/Info.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/example/controllers/Manage_commodity.php" afterPath="$PROJECT_DIR$/modules/example/controllers/Manage_commodity.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/example/nordrassil_seed.json" afterPath="$PROJECT_DIR$/modules/example/nordrassil_seed.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_center.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_center.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_flood_victim_detail.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_flood_victim_detail.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_inventory.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_inventory.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Info.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Info.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_flood_victim_detail.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_flood_victim_detail.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_inventory.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_inventory.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_item.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_item.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_item_type.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_item_type.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_transfer.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_transfer.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Center_model.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Center_model.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Flood_victim_detail_model.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Flood_victim_detail_model.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Inventory_model.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Inventory_model.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/nordrassil_seed.json" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/nordrassil_seed.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_center_partial_view.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_center_partial_view.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_flood_victim_detail_partial_view.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_flood_victim_detail_partial_view.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_inventory_partial_view.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_inventory_partial_view.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/field_transfer_item_name.php" afterPath="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/field_transfer_item_name.php" />
+    </list>
+    <ignored path="No-CMS.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="No-CMS" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_center_partial_view.php" />
+        <option value="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_person_detail.php" />
+        <option value="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center.php" />
+        <option value="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_inventory.php" />
+        <option value="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center_person_detail.php" />
+        <option value="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_donate.php" />
+        <option value="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_flood_victim_detail.php" />
+        <option value="$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_ipta_ipts_list.php" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpServers">
+    <servers />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flood_donation_distribution_system" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="No-CMS" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flood_donation_distribution_system" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3643c169-db9b-4d1d-9864-e421d3f4be97" name="Default" comment="" />
+      <created>1464716129210</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1464716129210</updated>
+      <workItem from="1464716131557" duration="248000" />
+      <workItem from="1464728188708" duration="63000" />
+      <workItem from="1464728360886" duration="156000" />
+      <workItem from="1464729070767" duration="48000" />
+      <workItem from="1464729442133" duration="77000" />
+      <workItem from="1464744718948" duration="2437000" />
+      <workItem from="1464750379609" duration="526000" />
+      <workItem from="1464750969948" duration="2472000" />
+      <workItem from="1464756415862" duration="286000" />
+      <workItem from="1464835338623" duration="639000" />
+      <workItem from="1464838693647" duration="1615000" />
+      <workItem from="1464844415473" duration="1108000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="9675000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14372164" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5030257" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.4969743" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5030257" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.4969743" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14211309" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_center_partial_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_inventory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_center_partial_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_flood_victim_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_person_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="52" column="59" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_center_partial_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_person_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="52" column="59" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_center_partial_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_person_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_person_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/models/Grocerycrud_inventory_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_person_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="884">
+          <caret line="52" column="59" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Info.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4063">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Browse_flood_victim_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/views/Browse_center_partial_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="38" column="93" selection-start-line="38" selection-start-column="93" selection-end-line="38" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_center_person_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="38" column="21" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_donate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_flood_victim_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="38" column="128" selection-start-line="38" selection-start-column="128" selection-end-line="38" selection-end-column="128" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_inventory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-221">
+          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_ipta_ipts_list.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/flood_donation_distribution_system/controllers/Manage_person_detail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="38" column="10" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

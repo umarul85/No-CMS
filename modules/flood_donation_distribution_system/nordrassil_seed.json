@@ -108,6 +108,16 @@
                     "data_type": "timestamp",
                     "data_size": null,
                     "role": null
+                },
+                {
+                    "caption": "Center manager",
+                    "name": "center_manager",
+                    "data_type": "int",
+                    "data_size": "20",
+                    "role": null,
+                    "options": {
+                        "hide": true
+                    }
                 }
             ]
         },
@@ -153,10 +163,7 @@
                     "relation_selection_column_name": "item_name",
                     "selection_table_name": "item",
                     "selection_column_name": "item_name",
-                    "selection_table_primary_key": "item_id",
-                    "options": {
-                        "unique": true
-                    }
+                    "selection_table_primary_key": "item_id"
                 },
                 {
                     "caption": "Item Type",
@@ -166,50 +173,29 @@
                     "role": "lookup",
                     "lookup_table_name": "item_type",
                     "lookup_column_name": "item_type",
-                    "lookup_table_primary_key": "item_type_id",
-                    "options": {
-                        "unique": true
-                    }
+                    "lookup_table_primary_key": "item_type_id"
                 },
                 {
-                    "caption": "Quantity",
-                    "name": "quantity",
+                    "caption": "Item Measurement Type",
+                    "name": "item_measurement_type",
+                    "data_type": "varchar",
+                    "data_size": "20",
+                    "role": "lookup",
+                    "lookup_table_name": "item_measurement_type",
+                    "lookup_column_name": "item_measurement",
+                    "lookup_table_primary_key": "measurement_id"
+                },
+                {
+                    "caption": "Current Quantity",
+                    "name": "current_quantity",
                     "data_type": "int",
                     "data_size": null,
                     "role": null
                 },
                 {
-                    "caption": "Donator Name ",
-                    "name": "donator_name",
-                    "data_type": "char",
-                    "data_size": null,
-                    "role": null
-                },
-                {
-                    "caption": "Receiver Name",
-                    "name": "receiver_name",
-                    "data_type": "char",
-                    "data_size": null,
-                    "role": null
-                },
-                {
-                    "caption": "Received Date",
-                    "name": "received_date",
-                    "data_type": "timestamp",
-                    "data_size": null,
-                    "role": null
-                },
-                {
-                    "caption": "Send Date",
-                    "name": "send_date",
-                    "data_type": "timestamp",
-                    "data_size": null,
-                    "role": null
-                },
-                {
-                    "caption": "Remark",
-                    "name": "remark",
-                    "data_type": "mediumtext",
+                    "caption": "Request Quantity",
+                    "name": "request_quantity",
+                    "data_type": "int",
                     "data_size": null,
                     "role": null
                 }
@@ -224,10 +210,10 @@
             },
             "columns": [
                 {
-                    "caption": "Victim Ic",
-                    "name": "victim_ic",
+                    "caption": "Victim Id",
+                    "name": "victim_id",
                     "data_type": "int",
-                    "data_size": null,
+                    "data_size": "10",
                     "role": "primary"
                 },
                 {
@@ -246,6 +232,17 @@
                     "data_type": "tinytext",
                     "data_size": null,
                     "role": null
+                },
+                {
+                    "caption": "Victim Ic",
+                    "name": "victim_ic",
+                    "data_type": "varchar",
+                    "data_size": "12",
+                    "role": null,
+                    "options": {
+                        "unique": true,
+                        "validation_integer": true
+                    }
                 },
                 {
                     "caption": "Gender",
@@ -407,6 +404,108 @@
                     "lookup_table_name": "inventory",
                     "lookup_column_name": "item_name",
                     "lookup_table_primary_key": "inventory_id",
+                    "relation_table_name": "inventory",
+                    "relation_table_column_name": "inventory_id"
+                }
+            ]
+        },
+        {
+            "name": "inventory_transfer",
+            "caption": "Inventory Transfer",
+            "data": null,
+            "options": {
+                "dont_make_form": true
+            },
+            "columns": [
+                {
+                    "caption": "Id Inventory Transfer",
+                    "name": "id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "primary"
+                },
+                {
+                    "caption": "Inventory Id",
+                    "name": "inventory_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": null
+                },
+                {
+                    "caption": "Item Id",
+                    "name": "item_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": null
+                },
+                {
+                    "caption": "Priority",
+                    "name": "priority",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": null
+                }
+            ]
+        },
+        {
+            "name": "item_measurement_type",
+            "caption": "Item Measurement Type",
+            "data": null,
+            "columns": [
+                {
+                    "caption": "Measurement Id",
+                    "name": "measurement_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "primary"
+                },
+                {
+                    "caption": "Item Measurement",
+                    "name": "item_measurement",
+                    "data_type": "varchar",
+                    "data_size": "20",
+                    "role": null
+                }
+            ]
+        },
+        {
+            "name": "donate",
+            "caption": "Donate",
+            "data": null,
+            "columns": [
+                {
+                    "caption": "Donate Id",
+                    "name": "donate_id",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "primary"
+                },
+                {
+                    "caption": "Donator Name",
+                    "name": "donator_name",
+                    "data_type": "varchar",
+                    "data_size": "20",
+                    "role": null
+                },
+                {
+                    "caption": "Center Name",
+                    "name": "center_name",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": "lookup",
+                    "lookup_table_name": "center",
+                    "lookup_column_name": "center_name",
+                    "lookup_table_primary_key": "center_id",
+                    "options": {
+                        "required": true
+                    }
+                },
+                {
+                    "caption": "Item",
+                    "name": "item",
+                    "data_type": null,
+                    "data_size": null,
+                    "role": "detail one to many",
                     "relation_table_name": "inventory",
                     "relation_table_column_name": "inventory_id"
                 }

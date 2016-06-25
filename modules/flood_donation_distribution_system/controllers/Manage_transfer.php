@@ -191,6 +191,11 @@ class Manage_transfer extends CMS_CRUD_Controller {
                 'selection_pk_column'     => 'item_type_id',
                 'selection_lookup_column' => 'item_type',
             ),
+            'item_measurement_type' => array(
+                'selection_table'         => 'item_measurement_type',
+                'selection_pk_column'     => 'measurement_id',
+                'selection_lookup_column' => 'item_measurement',
+            ),
         );
         // Detail table's many-to-many columns configurations
         $many_to_many_config_list = array();
@@ -234,8 +239,8 @@ class Manage_transfer extends CMS_CRUD_Controller {
             'inventory_id', // DETAIL FK NAME
             $primary_key, // PARENT PRIMARY KEY VALUE
             $data, // DATA
-            $real_column_list=array('center_id', 'item_name', 'item_type', 'quantity', 'donator_name', 'receiver_name', 'received_date', 'send_date', 'remark'), // REAL DETAIL COLUMN NAMES
-            $set_column_list=array(), // SET DETAIL COLUMN NAMES
+            array('center_id', 'item_name', 'item_type', 'item_measurement_type', 'current_quantity', 'request_quantity'), // REAL DETAIL COLUMN NAMES
+            array(), // SET DETAIL COLUMN NAMES
             $many_to_many_config_list=array()
         );
 
@@ -279,6 +284,9 @@ class Manage_transfer extends CMS_CRUD_Controller {
     }
 
     public function _before_delete($primary_key){
+        // delete corresponding inventory
+        $this->db->delete($this->t('inventory'),
+              array('inventory_id'=>$primary_key));
         return TRUE;
     }
 

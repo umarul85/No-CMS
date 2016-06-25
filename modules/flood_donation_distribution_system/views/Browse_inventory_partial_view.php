@@ -25,35 +25,20 @@ foreach($result as $record){
     $contents .= '<th>Item Type</th>';
     $contents .= '<td>' . $record->item_type_item_type . '</td>';
     $contents .= '</tr>';
-    //QUANTITY
+    //ITEM MEASUREMENT TYPE
     $contents .= '<tr>';
-    $contents .= '<th>Quantity</th>';
-    $contents .= '<td>' . $record->quantity . '</td>';
+    $contents .= '<th>Item Measurement Type</th>';
+    $contents .= '<td>' . $record->item_measurement_type_item_measurement . '</td>';
     $contents .= '</tr>';
-    //DONATOR NAME 
+    //CURRENT QUANTITY
     $contents .= '<tr>';
-    $contents .= '<th>Donator Name </th>';
-    $contents .= '<td>' . $record->donator_name . '</td>';
+    $contents .= '<th>Current Quantity</th>';
+    $contents .= '<td>' . $record->current_quantity . '</td>';
     $contents .= '</tr>';
-    //RECEIVER NAME
+    //REQUEST QUANTITY
     $contents .= '<tr>';
-    $contents .= '<th>Receiver Name</th>';
-    $contents .= '<td>' . $record->receiver_name . '</td>';
-    $contents .= '</tr>';
-    //RECEIVED DATE
-    $contents .= '<tr>';
-    $contents .= '<th>Received Date</th>';
-    $contents .= '<td>' . $record->received_date . '</td>';
-    $contents .= '</tr>';
-    //SEND DATE
-    $contents .= '<tr>';
-    $contents .= '<th>Send Date</th>';
-    $contents .= '<td>' . $record->send_date . '</td>';
-    $contents .= '</tr>';
-    //REMARK
-    $contents .= '<tr>';
-    $contents .= '<th>Remark</th>';
-    $contents .= '<td>' . $record->remark . '</td>';
+    $contents .= '<th>Request Quantity</th>';
+    $contents .= '<td>' . $record->request_quantity . '</td>';
     $contents .= '</tr>';
 
     $contents .= '</tbody>';

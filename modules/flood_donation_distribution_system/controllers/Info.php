@@ -164,6 +164,36 @@ class Info extends CMS_Module {
                 'hidden'            => NULL,
                 'static_content'    => NULL,
             ),
+            // Manage Item Measurement Type
+            array(
+                'entity_name'       => 'item_measurement_type',
+                'url'               => 'manage_item_measurement_type',
+                'authorization_id'  => PRIV_AUTHORIZED,
+                'default_layout'    => 'default-one-column',
+                'title'             => 'Manage Item Measurement Type',
+                'parent_name'       => 'index',
+                'index'             => NULL,
+                'description'       => NULL,
+                'bootstrap_glyph'   => NULL,
+                'notification_url'  => NULL,
+                'hidden'            => NULL,
+                'static_content'    => NULL,
+            ),
+            // Manage Donate
+            array(
+                'entity_name'       => 'donate',
+                'url'               => 'manage_donate',
+                'authorization_id'  => PRIV_AUTHORIZED,
+                'default_layout'    => 'default-one-column',
+                'title'             => 'Manage Donate',
+                'parent_name'       => 'index',
+                'index'             => NULL,
+                'description'       => NULL,
+                'bootstrap_glyph'   => NULL,
+                'notification_url'  => NULL,
+                'hidden'            => NULL,
+                'static_content'    => NULL,
+            ),
 
         );
 
@@ -185,7 +215,7 @@ class Info extends CMS_Module {
         );
     protected $GROUP_NAVIGATIONS = array();
     protected $GROUP_BACKEND_NAVIGATIONS = array(
-            'Flood Donation Distribution System Manager' => array('center', 'inventory', 'flood_victim_detail', 'item', 'item_type', 'transfer')
+            'Flood Donation Distribution System Manager' => array('center', 'inventory', 'flood_victim_detail', 'item', 'item_type', 'transfer', 'item_measurement_type', 'donate')
         );
     protected $GROUP_PRIVILEGES = array();
     protected $GROUP_BACKEND_PRIVILEGES = array(
@@ -196,6 +226,8 @@ class Info extends CMS_Module {
                 'item' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
                 'item_type' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
                 'transfer' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
+                'item_measurement_type' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
+                'donate' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
             )
         );
 
@@ -219,6 +251,7 @@ class Info extends CMS_Module {
                 'center_status'        => array("type" => 'enum',    "constraint" => array("Open","Closed"), "null" => TRUE),
                 'center_open_date'     => array("type" => 'timestamp',  "null" => TRUE),
                 'center_closed_date'   => array("type" => 'timestamp',  "null" => TRUE),
+                'center_manager'       => array("type" => 'int',        "constraint" => 20,  "null" => TRUE),
             ),
         ),
         // inventory
@@ -229,21 +262,19 @@ class Info extends CMS_Module {
                 'center_id'            => array("type" => 'int',        "constraint" => 10,  "null" => TRUE),
                 'item_name'            => array("type" => 'varchar',    "constraint" => 50,  "null" => TRUE),
                 'item_type'            => array("type" => 'varchar',    "constraint" => 50,  "null" => TRUE),
-                'quantity'             => array("type" => 'int',        "constraint" => 11,  "null" => TRUE),
-                'donator_name'         => array("type" => 'char',       "constraint" => 11,  "null" => TRUE),
-                'receiver_name'        => array("type" => 'char',       "constraint" => 11,  "null" => TRUE),
-                'received_date'        => array("type" => 'timestamp',  "null" => TRUE),
-                'send_date'            => array("type" => 'timestamp',  "null" => TRUE),
-                'remark'               => array("type" => 'mediumtext', "null" => TRUE),
+                'item_measurement_type' => array("type" => 'varchar',    "constraint" => 20,  "null" => TRUE),
+                'current_quantity'     => array("type" => 'int',        "constraint" => 11,  "null" => TRUE),
+                'request_quantity'     => array("type" => 'int',        "constraint" => 11,  "null" => TRUE),
             ),
         ),
         // flood_victim_detail
         'flood_victim_detail' => array(
-            'key'    => 'victim_ic',
+            'key'    => 'victim_id',
             'fields' => array(
-                'victim_ic'            => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
+                'victim_id'            => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
                 'center_id'            => array("type" => 'int',        "constraint" => 10,  "null" => TRUE),
                 'victim_name'          => array("type" => 'tinytext',   "null" => TRUE),
+                'victim_ic'            => array("type" => 'varchar',    "constraint" => 12,  "null" => TRUE),
                 'gender'               => array("type" => 'enum',    "constraint" => array("male","female"), "null" => TRUE),
                 'age'                  => array("type" => 'int',        "constraint" => 11,  "null" => TRUE),
                 'contact_number'       => array("type" => 'tinytext',   "null" => TRUE),
@@ -279,6 +310,34 @@ class Info extends CMS_Module {
             'fields' => array(
                 'transfer_id'          => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
                 'item_name'            => array("type" => 'varchar',    "constraint" => 20,  "null" => TRUE),
+            ),
+        ),
+        // inventory_transfer
+        'inventory_transfer' => array(
+            'key'    => 'id',
+            'fields' => array(
+                'id'                   => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
+                'inventory_id'         => array("type" => 'int',        "constraint" => 10,  "null" => TRUE),
+                'item_id'              => array("type" => 'int',        "constraint" => 10,  "null" => TRUE),
+                'priority'             => array("type" => 'int',        "constraint" => 10,  "null" => TRUE),
+            ),
+        ),
+        // item_measurement_type
+        'item_measurement_type' => array(
+            'key'    => 'measurement_id',
+            'fields' => array(
+                'measurement_id'       => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
+                'item_measurement'     => array("type" => 'varchar',    "constraint" => 20,  "null" => TRUE),
+            ),
+        ),
+        // donate
+        'donate' => array(
+            'key'    => 'donate_id',
+            'fields' => array(
+                'donate_id'            => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
+                'donator_name'         => array("type" => 'varchar',    "constraint" => 20,  "null" => TRUE),
+                'center_name'          => array("type" => 'int',        "constraint" => 10,  "null" => TRUE),
+                'item'                 => array("type" => 'varchar',    "constraint" => 255, "null" => TRUE),
             ),
         ),
     );

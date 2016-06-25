@@ -134,6 +134,36 @@ class Info extends CMS_Module {
                 'hidden'            => NULL,
                 'static_content'    => NULL,
             ),
+            // Manage Citizen
+            array(
+                'entity_name'       => 'citizen',
+                'url'               => 'manage_citizen',
+                'authorization_id'  => PRIV_AUTHORIZED,
+                'default_layout'    => 'default-one-column',
+                'title'             => 'Manage Citizen',
+                'parent_name'       => 'index',
+                'index'             => NULL,
+                'description'       => NULL,
+                'bootstrap_glyph'   => NULL,
+                'notification_url'  => NULL,
+                'hidden'            => NULL,
+                'static_content'    => NULL,
+            ),
+            // Manage City Commodity
+            array(
+                'entity_name'       => 'city_commodity',
+                'url'               => 'manage_city_commodity',
+                'authorization_id'  => PRIV_AUTHORIZED,
+                'default_layout'    => 'default-one-column',
+                'title'             => 'Manage City Commodity',
+                'parent_name'       => 'index',
+                'index'             => NULL,
+                'description'       => NULL,
+                'bootstrap_glyph'   => NULL,
+                'notification_url'  => NULL,
+                'hidden'            => NULL,
+                'static_content'    => NULL,
+            ),
 
         );
 
@@ -155,7 +185,7 @@ class Info extends CMS_Module {
         );
     protected $GROUP_NAVIGATIONS = array();
     protected $GROUP_BACKEND_NAVIGATIONS = array(
-            'Example Manager' => array('job', 'hobby', 'country', 'commodity', 'tourism', 'city')
+            'Example Manager' => array('job', 'hobby', 'country', 'commodity', 'tourism', 'city', 'citizen', 'city_commodity')
         );
     protected $GROUP_PRIVILEGES = array();
     protected $GROUP_BACKEND_PRIVILEGES = array(
@@ -166,6 +196,8 @@ class Info extends CMS_Module {
                 'commodity' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
                 'tourism' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
                 'city' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
+                'citizen' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
+                'city_commodity' => array('read', 'add', 'edit', 'delete', 'list', 'back_to_list', 'print', 'export'),
             )
         );
 
@@ -203,6 +235,7 @@ class Info extends CMS_Module {
             'fields' => array(
                 'commodity_id'         => 'TYPE_INT_UNSIGNED_AUTO_INCREMENT',
                 'name'                 => array("type" => 'varchar',    "constraint" => 20,  "null" => TRUE),
+                'qty'                  => array("type" => 'int',        "constraint" => 10,  "null" => TRUE),
             ),
         ),
         // tourism

@@ -9,7 +9,7 @@ class Center_model extends  CMS_Model{
 
     public function get_data($keyword, $page=0){
         $limit = 10;
-        $query = $this->db->select('center.center_id, center.center_name, center.residing_address, center.city, center.postal_code, center.state_region, center.center_type, center.center_total_capacity, center.center_current_cappacity, center.center_status, center.center_open_date, center.center_closed_date')
+        $query = $this->db->select('center.center_id, center.center_name, center.residing_address, center.city, center.postal_code, center.state_region, center.center_type, center.center_total_capacity, center.center_current_cappacity, center.center_status, center.center_open_date, center.center_closed_date, center.center_manager')
             ->from($this->t('center').' as center')
             ->like('center.center_name', $keyword)
             ->or_like('center.residing_address', $keyword)
@@ -22,6 +22,7 @@ class Center_model extends  CMS_Model{
             ->or_like('center.center_status', $keyword)
             ->or_like('center.center_open_date', $keyword)
             ->or_like('center.center_closed_date', $keyword)
+            ->or_like('center.center_manager', $keyword)
             ->limit($limit, $page*$limit)
             ->get();
         $result = $query->result();

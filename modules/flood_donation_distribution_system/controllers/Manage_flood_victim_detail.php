@@ -9,10 +9,10 @@ class Manage_flood_victim_detail extends CMS_CRUD_Controller {
 
     protected $URL_MAP = array();
     protected $TABLE_NAME = 'flood_victim_detail';
-    protected $COLUMN_NAMES = array('center_id', 'victim_name', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date');
-    protected $PRIMARY_KEY = 'victim_ic';
+    protected $COLUMN_NAMES = array('center_id', 'victim_name', 'victim_ic', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date');
+    protected $PRIMARY_KEY = 'victim_id';
     protected $UNSET_JQUERY = TRUE;
-    protected $UNSET_READ = TRUE;
+    protected $UNSET_READ = FALSE;
     protected $UNSET_ADD = FALSE;
     protected $UNSET_EDIT = FALSE;
     protected $UNSET_DELETE = FALSE;
@@ -36,14 +36,15 @@ class Manage_flood_victim_detail extends CMS_CRUD_Controller {
         $crud->set_subject('Flood Victim Detail');
 
         // displayed columns on list, edit, and add, uncomment to use
-        //$crud->columns('center_id', 'victim_name', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date');
-        //$crud->edit_fields('center_id', 'victim_name', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date', '_updated_by', '_updated_at');
-        //$crud->add_fields('center_id', 'victim_name', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date', '_created_by', '_created_at');
-        //$crud->set_read_fields('center_id', 'victim_name', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date');
+        $crud->columns('center_id', 'victim_name', 'gender', 'age', 'city', 'state_region', 'current_ipta_ipts', 'victim_status');
+        //$crud->edit_fields('center_id', 'victim_name', 'victim_ic', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date', '_updated_by', '_updated_at');
+        //$crud->add_fields('center_id', 'victim_name', 'victim_ic', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date', '_created_by', '_created_at');
+        //$crud->set_read_fields('center_id', 'victim_name', 'victim_ic', 'gender', 'age', 'contact_number', 'home_address', 'city', 'postal_code', 'state_region', 'current_ipta_ipts', 'victim_status', 'victim_enter_date', 'victim_out_date');
 
         // caption of each columns
         $crud->display_as('center_id','Center Name');
         $crud->display_as('victim_name','Victim Name');
+        $crud->display_as('victim_ic','Victim Ic');
         $crud->display_as('gender','Gender');
         $crud->display_as('age','Age');
         $crud->display_as('contact_number','Contact Number');
@@ -86,7 +87,7 @@ class Manage_flood_victim_detail extends CMS_CRUD_Controller {
         // eg:
         //      $crud->unique_fields( $field1, $field2, $field3, ... );
         ////////////////////////////////////////////////////////////////////////
-        
+        $crud->unique_fields('victim_ic');
 
         ////////////////////////////////////////////////////////////////////////
         // HINT: Put field validation codes here
@@ -94,6 +95,7 @@ class Manage_flood_victim_detail extends CMS_CRUD_Controller {
         // eg:
         //      $crud->set_rules( $field_name , $caption, $filter );
         ////////////////////////////////////////////////////////////////////////
+        $crud->set_rules('victim_ic', 'Victim Ic', 'integer');
         $crud->set_rules('age', 'Age', 'integer');
         $crud->set_rules('postal_code', 'Postal Code', 'integer');
 
@@ -227,6 +229,7 @@ class Manage_flood_victim_detail extends CMS_CRUD_Controller {
     }
 
     public function _before_delete($primary_key){
+
         return TRUE;
     }
 

@@ -25,11 +25,11 @@ class Browse_flood_victim_detail extends CMS_Secure_Controller {
             'have_add_privilege'        => $this->cms_have_privilege($this->n('add_flood_victim_detail')),
             'have_edit_privilege'       => $this->cms_have_privilege($this->n('edit_flood_victim_detail')),
             'have_delete_privilege'     => $this->cms_have_privilege($this->n('delete_flood_victim_detail')),
-            'backend_url'               => site_url($this->cms_module_path().'/manage_flood_victim_detail/index'),
-            'module_path'               => $this->cms_module_path(),
+            'backend_url'               => site_url($module_path.'/manage_flood_victim_detail/index'),
+            'module_path'               => $module_path,
             'first_data'                => Modules::run($module_path.'/browse_flood_victim_detail/get_data', 0, '')
         );
-        $this->view($this->cms_module_path().'/Browse_flood_victim_detail_view',$data,
+        $this->view($module_path.'/Browse_flood_victim_detail_view',$data,
             $this->n('browse_flood_victim_detail'));
     }
 
@@ -41,9 +41,8 @@ class Browse_flood_victim_detail extends CMS_Secure_Controller {
         if($keyword == '' && $post_keyword != NULL) $keyword = $post_keyword;
         if($page == 0 && $post_page != NULL) $page = $post_page;
         // get data from model
-        $this->load->model($this->cms_module_path().'/flood_victim_detail_model');
-        $this->Flood_victim_detail_model = new Flood_victim_detail_model();
-        $result = $this->Flood_victim_detail_model->get_data($keyword, $page);
+        $this->load->model($module_path.'/flood_victim_detail_model');
+        $result = $this->flood_victim_detail_model->get_data($keyword, $page);
         $data = array(
             'result'                 =>$result,
             'allow_navigate_backend' => $this->cms_allow_navigate($this->n('manage_flood_victim_detail')),

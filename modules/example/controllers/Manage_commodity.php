@@ -9,7 +9,7 @@ class Manage_commodity extends CMS_CRUD_Controller {
 
     protected $URL_MAP = array();
     protected $TABLE_NAME = 'commodity';
-    protected $COLUMN_NAMES = array('name');
+    protected $COLUMN_NAMES = array('name', 'qty');
     protected $PRIMARY_KEY = 'commodity_id';
     protected $UNSET_JQUERY = TRUE;
     protected $UNSET_READ = TRUE;
@@ -36,13 +36,14 @@ class Manage_commodity extends CMS_CRUD_Controller {
         $crud->set_subject('Commodity');
 
         // displayed columns on list, edit, and add, uncomment to use
-        //$crud->columns('name');
-        //$crud->edit_fields('name', '_updated_by', '_updated_at');
-        //$crud->add_fields('name', '_created_by', '_created_at');
-        //$crud->set_read_fields('name');
+        //$crud->columns('name', 'qty');
+        //$crud->edit_fields('name', 'qty', '_updated_by', '_updated_at');
+        //$crud->add_fields('name', 'qty', '_created_by', '_created_at');
+        //$crud->set_read_fields('name', 'qty');
 
         // caption of each columns
         $crud->display_as('name','Name');
+        $crud->display_as('qty','qty');
 
         ////////////////////////////////////////////////////////////////////////
         // This function will automatically detect every methods in this controller and link it to corresponding column
@@ -66,7 +67,7 @@ class Manage_commodity extends CMS_CRUD_Controller {
         // eg:
         //      $crud->required_fields( $field1, $field2, $field3, ... );
         ////////////////////////////////////////////////////////////////////////
-        $crud->required_fields('name');
+        $crud->required_fields('name', 'qty');
 
         ////////////////////////////////////////////////////////////////////////
         // HINT: Put required field validation codes here
@@ -82,6 +83,7 @@ class Manage_commodity extends CMS_CRUD_Controller {
         // eg:
         //      $crud->set_rules( $field_name , $caption, $filter );
         ////////////////////////////////////////////////////////////////////////
+        $crud->set_rules('qty', 'qty', 'integer');
 
 
         ////////////////////////////////////////////////////////////////////////

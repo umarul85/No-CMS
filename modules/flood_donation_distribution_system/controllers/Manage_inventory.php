@@ -9,10 +9,10 @@ class Manage_inventory extends CMS_CRUD_Controller {
 
     protected $URL_MAP = array();
     protected $TABLE_NAME = 'inventory';
-    protected $COLUMN_NAMES = array('center_id', 'item_name', 'item_type', 'quantity', 'donator_name', 'receiver_name', 'received_date', 'send_date', 'remark');
+    protected $COLUMN_NAMES = array('center_id', 'item_name', 'item_type', 'item_measurement_type', 'current_quantity', 'request_quantity');
     protected $PRIMARY_KEY = 'inventory_id';
     protected $UNSET_JQUERY = TRUE;
-    protected $UNSET_READ = TRUE;
+    protected $UNSET_READ = FALSE;
     protected $UNSET_ADD = FALSE;
     protected $UNSET_EDIT = FALSE;
     protected $UNSET_DELETE = FALSE;
@@ -36,21 +36,18 @@ class Manage_inventory extends CMS_CRUD_Controller {
         $crud->set_subject('Inventory');
 
         // displayed columns on list, edit, and add, uncomment to use
-        //$crud->columns('center_id', 'item_name', 'item_type', 'quantity', 'donator_name', 'receiver_name', 'received_date', 'send_date', 'remark');
-        //$crud->edit_fields('center_id', 'item_name', 'item_type', 'quantity', 'donator_name', 'receiver_name', 'received_date', 'send_date', 'remark', '_updated_by', '_updated_at');
-        //$crud->add_fields('center_id', 'item_name', 'item_type', 'quantity', 'donator_name', 'receiver_name', 'received_date', 'send_date', 'remark', '_created_by', '_created_at');
-        //$crud->set_read_fields('center_id', 'item_name', 'item_type', 'quantity', 'donator_name', 'receiver_name', 'received_date', 'send_date', 'remark');
+        //$crud->columns('center_id', 'item_name', 'item_type', 'item_measurement_type', 'current_quantity', 'request_quantity');
+        //$crud->edit_fields('center_id', 'item_name', 'item_type', 'item_measurement_type', 'current_quantity', 'request_quantity', '_updated_by', '_updated_at');
+        //$crud->add_fields('center_id', 'item_name', 'item_type', 'item_measurement_type', 'current_quantity', 'request_quantity', '_created_by', '_created_at');
+        //$crud->set_read_fields('center_id', 'item_name', 'item_type', 'item_measurement_type', 'current_quantity', 'request_quantity');
 
         // caption of each columns
         $crud->display_as('center_id','Center Name');
         $crud->display_as('item_name','Item Name');
         $crud->display_as('item_type','Item Type');
-        $crud->display_as('quantity','Quantity');
-        $crud->display_as('donator_name','Donator Name ');
-        $crud->display_as('receiver_name','Receiver Name');
-        $crud->display_as('received_date','Received Date');
-        $crud->display_as('send_date','Send Date');
-        $crud->display_as('remark','Remark');
+        $crud->display_as('item_measurement_type','Item Measurement Type');
+        $crud->display_as('current_quantity','Current Quantity');
+        $crud->display_as('request_quantity','Request Quantity');
 
         ////////////////////////////////////////////////////////////////////////
         // This function will automatically detect every methods in this controller and link it to corresponding column
@@ -82,7 +79,7 @@ class Manage_inventory extends CMS_CRUD_Controller {
         // eg:
         //      $crud->unique_fields( $field1, $field2, $field3, ... );
         ////////////////////////////////////////////////////////////////////////
-        $crud->unique_fields('item_name', 'item_type');
+        
 
         ////////////////////////////////////////////////////////////////////////
         // HINT: Put field validation codes here
@@ -101,6 +98,7 @@ class Manage_inventory extends CMS_CRUD_Controller {
         $crud->set_relation('center_id', $this->t('center'), 'center_name');
         $crud->set_relation('item_name', $this->t('item'), 'item_name');
         $crud->set_relation('item_type', $this->t('item_type'), 'item_type');
+        $crud->set_relation('item_measurement_type', $this->t('item_measurement_type'), 'item_measurement');
 
         ////////////////////////////////////////////////////////////////////////
         // HINT: Put set relation_n_n (detail many to many) codes here
@@ -221,6 +219,7 @@ class Manage_inventory extends CMS_CRUD_Controller {
     }
 
     public function _before_delete($primary_key){
+
         return TRUE;
     }
 

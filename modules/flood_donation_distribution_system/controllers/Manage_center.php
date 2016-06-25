@@ -9,10 +9,10 @@ class Manage_center extends CMS_CRUD_Controller {
 
     protected $URL_MAP = array();
     protected $TABLE_NAME = 'center';
-    protected $COLUMN_NAMES = array('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date');
+    protected $COLUMN_NAMES = array('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date', 'center_manager');
     protected $PRIMARY_KEY = 'center_id';
     protected $UNSET_JQUERY = TRUE;
-    protected $UNSET_READ = TRUE;
+    protected $UNSET_READ = FALSE;
     protected $UNSET_ADD = FALSE;
     protected $UNSET_EDIT = FALSE;
     protected $UNSET_DELETE = FALSE;
@@ -36,10 +36,10 @@ class Manage_center extends CMS_CRUD_Controller {
         $crud->set_subject('Center');
 
         // displayed columns on list, edit, and add, uncomment to use
-        //$crud->columns('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date');
-        //$crud->edit_fields('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date', '_updated_by', '_updated_at');
-        //$crud->add_fields('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date', '_created_by', '_created_at');
-        //$crud->set_read_fields('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date');
+        $crud->columns('center_name', 'city', 'state_region', 'center_type', 'center_status', 'center_manager');
+        //$crud->edit_fields('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date', 'center_manager', '_updated_by', '_updated_at');
+        //$crud->add_fields('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date', 'center_manager', '_created_by', '_created_at');
+        //$crud->set_read_fields('center_name', 'residing_address', 'city', 'postal_code', 'state_region', 'center_type', 'center_total_capacity', 'center_current_cappacity', 'center_status', 'center_open_date', 'center_closed_date', 'center_manager');
 
         // caption of each columns
         $crud->display_as('center_name','Center Name');
@@ -53,6 +53,7 @@ class Manage_center extends CMS_CRUD_Controller {
         $crud->display_as('center_status','Center Status');
         $crud->display_as('center_open_date','Center Open Date');
         $crud->display_as('center_closed_date','Center Closed Date');
+        $crud->display_as('center_manager','Center manager');
 
         ////////////////////////////////////////////////////////////////////////
         // This function will automatically detect every methods in this controller and link it to corresponding column
@@ -120,7 +121,8 @@ class Manage_center extends CMS_CRUD_Controller {
         $crud->field_type('state_region', 'enum', array("Johor","Kedah","Kelantan","Melaka","Negeri Sembilan","Pahang","Pulau Pinang","Perak","Perlis","Sabah","Sarawak","Selangor","Terengganu"));
         $crud->field_type('center_type', 'enum', array("FLOOD CENTER","DONATION COLLECTION CENTER"));
         $crud->field_type('center_status', 'enum', array("Open","Closed"));
-
+        $cms_user_id=$_SESSION["cms_user_id"];
+        $crud->field_type('center_manager', 'hidden', $cms_user_id);
 
 
         ////////////////////////////////////////////////////////////////////////
@@ -223,6 +225,7 @@ class Manage_center extends CMS_CRUD_Controller {
     }
 
     public function _before_delete($primary_key){
+
         return TRUE;
     }
 

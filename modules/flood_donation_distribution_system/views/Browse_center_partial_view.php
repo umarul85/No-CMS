@@ -65,6 +65,11 @@ foreach($result as $record){
     $contents .= '<th>Center Closed Date</th>';
     $contents .= '<td>' . $record->center_closed_date . '</td>';
     $contents .= '</tr>';
+    //CENTER MANAGER
+    $contents .= '<tr>';
+    $contents .= '<th>Center manager</th>';
+    $contents .= '<td>' . $record->center_manager . '</td>';
+    $contents .= '</tr>';
 
     $contents .= '</tbody>';
     $contents .= '</table>';

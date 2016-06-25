@@ -211,6 +211,7 @@ class Manage_item extends CMS_CRUD_Controller {
     }
 
     public function _before_delete($primary_key){
+
         return TRUE;
     }
 

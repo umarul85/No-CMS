@@ -141,6 +141,17 @@
                         "required": true,
                         "unique": true
                     }
+                },
+                {
+                    "caption": "qty",
+                    "name": "qty",
+                    "data_type": "int",
+                    "data_size": "10",
+                    "role": null,
+                    "options": {
+                        "required": true,
+                        "validation_integer": true
+                    }
                 }
             ]
         },
@@ -251,9 +262,6 @@
             "name": "twn_citizen",
             "caption": "Citizen",
             "data": null,
-            "options": {
-                "dont_make_form": true
-            },
             "columns": [
                 {
                     "caption": "Citizen Id",
@@ -316,9 +324,6 @@
             "name": "twn_city_commodity",
             "caption": "City Commodity",
             "data": null,
-            "options": {
-                "dont_make_form": true
-            },
             "columns": [
                 {
                     "caption": "Id",
@@ -331,13 +336,21 @@
                     "caption": "City Id",
                     "name": "city_id",
                     "data_type": "int",
-                    "data_size": "10"
+                    "data_size": "10",
+                    "role": "lookup",
+                    "lookup_table_name": "twn_city",
+                    "lookup_column_name": "name",
+                    "lookup_table_primary_key": "city_id"
                 },
                 {
                     "caption": "Commodity Id",
                     "name": "commodity_id",
                     "data_type": "int",
-                    "data_size": "10"
+                    "data_size": "10",
+                    "role": "lookup",
+                    "lookup_table_name": "twn_commodity",
+                    "lookup_column_name": "name",
+                    "lookup_table_primary_key": "commodity_id"
                 },
                 {
                     "caption": "Priority",
